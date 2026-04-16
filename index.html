@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="41 Days — 4AM Schedule">
+<meta name="apple-mobile-web-app-title" content="41 Days">
 <meta name="theme-color" content="#080810">
 <title>41-Day Transformation | 4AM • Prayer • Lunch • English + Backend</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
@@ -58,7 +58,6 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 .day-cell[data-phase="5"] .dc-bar{background:var(--green)}
 .day-cell[data-phase="6"] .dc-bar{background:var(--amber)}
 
-/* OVERLAY */
 .day-overlay{position:fixed;inset:0;background:var(--bg);z-index:100;overflow-y:auto;transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)}
 .day-overlay.open{transform:translateX(0)}
 .day-inner{max-width:540px;margin:0 auto;padding:0 16px 80px}
@@ -74,8 +73,6 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 .vc-topic{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--txt);line-height:1.35;margin-bottom:8px}
 .vc-hint{font-size:12px;color:var(--m);font-weight:300;line-height:1.5}
-
-/* schedule card with toggle */
 .schedule-card{background:rgba(34,216,122,0.05);border:0.5px solid rgba(34,216,122,0.2);border-radius:var(--r);margin-bottom:18px;overflow:hidden}
 .schedule-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;background:rgba(34,216,122,0.08);transition:background 0.2s}
 .schedule-header:active{background:rgba(34,216,122,0.15)}
@@ -134,17 +131,15 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
     <div id="dPhaseBadge"></div>
     <div id="dSpecial"></div>
     <div id="dVideoCard"></div>
-    
     <div class="schedule-card" id="scheduleCard">
       <div class="schedule-header" id="scheduleToggle">
-        <div class="schedule-title">⏱️ YOUR EXACT DAY: 4:00 AM → 9:30 PM (Prayer • Lunch 1–2PM)</div>
+        <div class="schedule-title">⏱️ YOUR EXACT DAY: 4:00 AM → 9:30 PM</div>
         <div class="toggle-icon" id="toggleIcon">▲</div>
       </div>
       <div class="schedule-content" id="scheduleContent">
         <div class="schedule-grid" id="scheduleGrid"></div>
       </div>
     </div>
-    
     <div class="day-prog"><div class="dp-ring"><svg viewBox="0 0 44 44" width="44" height="44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fg" id="dRingFg" cx="22" cy="22" r="18" stroke-dasharray="113" stroke-dashoffset="113"/></svg><div class="dp-pct" id="dRingPct">0%</div></div><div class="dp-info"><div class="dp-label" id="dProgLabel">0 of 15 habits done</div><div class="dp-sub" id="dProgSub">Track each habit — 4AM discipline with prayer & lunch</div></div></div>
     <div class="habits-title">✅ DAILY HABITS (track your progress)</div>
     <div id="dHabits"></div>
@@ -201,25 +196,24 @@ const PHASES = [
 ];
 
 const VIDEOS = Array(41).fill().map((_,i)=> `Day ${i+1} reflection — ${i<7?"Awakening":i<14?"Discipline":i<21?"Skill":i<28?"Mind":i<35?"Vision":"Rebirth"} step`);
-const VIDEO_HINTS = Array(41).fill("Record 2-3 minutes speaking in English about your daily progress. Mention prayer, lunch break, and coding wins.");
-
+const VIDEO_HINTS = Array(41).fill("Record 2-3 minutes speaking in English about your daily progress.");
 const SPECIALS = {
-  1:{icon:"🌱",text:"Day 1 — 4:00 AM wake achieved. Prayer and lunch schedule locked."},
-  7:{icon:"🏆",text:"Week 1 — 7 days of 4AM discipline. Fajr & Maghrib consistent."},
-  14:{icon:"⚔️",text:"Two weeks — hub travel + lunch break discipline mastered."},
-  21:{icon:"🧠",text:"Halfway: Record a 3-min English video about your prayer routine."},
-  30:{icon:"👑",text:"30 days — you balance coding, English, prayers & lunch perfectly."},
-  40:{icon:"🌟",text:"Day 40 — Tomorrow you become the standard."},
-  41:{icon:"🔥",text:"41 DAYS: 4AM warrior. English fluent. Backend ready. Prayer steadfast."},
+  1:{icon:"🌱",text:"Day 1 — 4:00 AM wake achieved."},
+  7:{icon:"🏆",text:"Week 1 complete!"},
+  14:{icon:"⚔️",text:"Two weeks strong!"},
+  21:{icon:"🧠",text:"Halfway there!"},
+  30:{icon:"👑",text:"30 days — keep going!"},
+  40:{icon:"🌟",text:"Day 40 — almost there!"},
+  41:{icon:"🔥",text:"YOU DID IT! Complete transformation."},
 };
 
-const STORE_KEY = "transform41_v8_nav_fixed";
+const STORE_KEY = "transform41_v9_persist";
+const OVERLAY_STATE_KEY = "transform41_current_day";
 let data = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
 function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
 function dayData(d){ if(!data[d]) data[d] = { habits:{} }; return data[d]; }
 function habitsDone(d){ const h = dayData(d).habits; return HABITS.filter(x => h[x.id]).length; }
 function getPhase(d){ return PHASES.find(p => d >= p.days[0] && d <= p.days[1]) || PHASES[0]; }
-
 function getStartDate(){ let s = localStorage.getItem("t41_start"); if(!s){ s = new Date().toDateString(); localStorage.setItem("t41_start", s); } return new Date(s); }
 function currentDay(){ const start = getStartDate(); const now = new Date(); const diff = Math.floor((now - start) / 86400000) + 1; return Math.min(Math.max(diff, 1), 41); }
 
@@ -229,19 +223,28 @@ function initScheduleToggle(){
   const contentDiv = document.getElementById("scheduleContent");
   const iconSpan = document.getElementById("toggleIcon");
   if(!toggleBtn || !contentDiv) return;
-  contentDiv.classList.remove("collapsed");
-  iconSpan.innerHTML = "▲";
-  scheduleCollapsed = false;
+  const savedCollapse = localStorage.getItem("schedule_collapsed");
+  if(savedCollapse === "true") {
+    contentDiv.classList.add("collapsed");
+    iconSpan.innerHTML = "▼";
+    scheduleCollapsed = true;
+  } else {
+    contentDiv.classList.remove("collapsed");
+    iconSpan.innerHTML = "▲";
+    scheduleCollapsed = false;
+  }
   toggleBtn.onclick = (e) => {
     e.stopPropagation();
     if(scheduleCollapsed){
       contentDiv.classList.remove("collapsed");
       iconSpan.innerHTML = "▲";
       scheduleCollapsed = false;
+      localStorage.setItem("schedule_collapsed", "false");
     } else {
       contentDiv.classList.add("collapsed");
       iconSpan.innerHTML = "▼";
       scheduleCollapsed = true;
+      localStorage.setItem("schedule_collapsed", "true");
     }
   };
 }
@@ -271,15 +274,19 @@ function buildGrid(){
 
 let activeDay = null;
 
-// FIXED: proper overlay navigation with history API
+// SAVE current day to localStorage
+function saveCurrentDay(day){
+  if(day) localStorage.setItem(OVERLAY_STATE_KEY, day);
+  else localStorage.removeItem(OVERLAY_STATE_KEY);
+}
+
 function openDay(d){
   if(d > currentDay()) return;
   activeDay = d;
   renderDay(d);
   document.getElementById("dayOverlay").classList.add("open");
   document.body.style.overflow = "hidden";
-  
-  // Push state so back button closes overlay
+  saveCurrentDay(d);
   history.pushState({ overlayOpen: true, day: d }, "", "#day-" + d);
   window.scrollTo(0,0);
 }
@@ -287,30 +294,55 @@ function openDay(d){
 function closeDay(shouldPopHistory = true){
   document.getElementById("dayOverlay").classList.remove("open");
   document.body.style.overflow = "";
+  saveCurrentDay(null);
   if(shouldPopHistory && history.state && history.state.overlayOpen){
-    // Don't pop here, let the popstate handler do it
+    // handled by popstate
   }
-  setTimeout(() => {
-    buildGrid();
-    if(activeDay){
-      activeDay = null;
-    }
-  }, 350);
+  setTimeout(() => { buildGrid(); activeDay = null; }, 350);
 }
 
-// Handle browser back button
+// RESTORE overlay if user left and came back
+function restoreOverlayIfNeeded(){
+  const savedDay = localStorage.getItem(OVERLAY_STATE_KEY);
+  if(savedDay && parseInt(savedDay) <= currentDay()){
+    const day = parseInt(savedDay);
+    activeDay = day;
+    renderDay(day);
+    document.getElementById("dayOverlay").classList.add("open");
+    document.body.style.overflow = "hidden";
+    history.pushState({ overlayOpen: true, day: day }, "", "#day-" + day);
+  }
+}
+
 window.addEventListener("popstate", function(event) {
   const overlay = document.getElementById("dayOverlay");
   if(overlay.classList.contains("open")){
     closeDay(false);
-    // Remove the hash
+    saveCurrentDay(null);
     if(window.location.hash) history.pushState(null, "", window.location.pathname);
   }
 });
 
-// Handle manual close button
+// Handle visibility change (user comes back to tab)
+document.addEventListener("visibilitychange", function() {
+  if(!document.hidden){
+    const savedDay = localStorage.getItem(OVERLAY_STATE_KEY);
+    const overlay = document.getElementById("dayOverlay");
+    if(savedDay && !overlay.classList.contains("open")){
+      const day = parseInt(savedDay);
+      if(day <= currentDay()){
+        activeDay = day;
+        renderDay(day);
+        overlay.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+    }
+  }
+});
+
 document.getElementById("closeOverlayBtn").addEventListener("click", function(){
   closeDay(true);
+  saveCurrentDay(null);
   if(history.state && history.state.overlayOpen){
     history.back();
   } else {
@@ -322,22 +354,17 @@ function renderDay(d){
   const phase = getPhase(d); const hd = dayData(d).habits;
   document.getElementById("dNum").textContent = `Day ${d} · ${phase.emoji} ${phase.name} Phase`;
   document.getElementById("dTitle").textContent = phaseTitle(d);
-  document.getElementById("dPhaseBadge").innerHTML = `<div class="phase-badge" style="background:${phase.bg};color:${phase.color}">${phase.emoji} Phase ${phase.num} — ${phase.name} | Prayer • Lunch 1-2PM</div>`;
+  document.getElementById("dPhaseBadge").innerHTML = `<div class="phase-badge" style="background:${phase.bg};color:${phase.color}">${phase.emoji} Phase ${phase.num} — ${phase.name}</div>`;
   document.getElementById("dSpecial").innerHTML = SPECIALS[d] ? `<div class="special-banner"><div class="sb-icon">${SPECIALS[d].icon}</div><div class="sb-text">${SPECIALS[d].text}</div></div>` : "";
-  document.getElementById("dVideoCard").innerHTML = `<div class="video-card"><div class="vc-label"><div class="rec-dot"></div> DAILY ENGLISH VIDEO</div><div class="vc-topic">"${VIDEOS[d-1]}"</div><div class="vc-hint">💡 ${VIDEO_HINTS[d-1]} Speak about your prayers, lunch break, and how 4AM changes you.</div></div>`;
-  
+  document.getElementById("dVideoCard").innerHTML = `<div class="video-card"><div class="vc-label"><div class="rec-dot"></div> DAILY ENGLISH VIDEO</div><div class="vc-topic">"${VIDEOS[d-1]}"</div><div class="vc-hint">💡 ${VIDEO_HINTS[d-1]}</div></div>`;
   const scheduleGrid = document.getElementById("scheduleGrid");
-  if(scheduleGrid){
-    scheduleGrid.innerHTML = DAILY_SCHEDULE.map(s => `<div class="sched-item"><span class="sched-time">${s.time}</span><span class="sched-emoji">${s.emoji}</span><span class="sched-desc">${s.task}</span></div>`).join('');
-  }
+  if(scheduleGrid) scheduleGrid.innerHTML = DAILY_SCHEDULE.map(s => `<div class="sched-item"><span class="sched-time">${s.time}</span><span class="sched-emoji">${s.emoji}</span><span class="sched-desc">${s.task}</span></div>`).join('');
   initScheduleToggle();
-  
   const doneCount = habitsDone(d); const pct = Math.round(doneCount/HABITS.length*100); const circumference = 113;
   document.getElementById("dRingFg").style.strokeDashoffset = circumference - (circumference * pct / 100);
   document.getElementById("dRingPct").textContent = pct+"%";
   document.getElementById("dProgLabel").textContent = doneCount+" of "+HABITS.length+" habits done";
-  document.getElementById("dProgSub").textContent = doneCount===HABITS.length ? "PERFECT DAY! 4AM • Prayer • Lunch • Code • English ✅" : (HABITS.length-doneCount)+" left → follow your 4AM schedule with prayer & lunch";
-  
+  document.getElementById("dProgSub").textContent = doneCount===HABITS.length ? "PERFECT DAY! ✅" : (HABITS.length-doneCount)+" left";
   const habCt = document.getElementById("dHabits"); habCt.innerHTML = "";
   HABITS.forEach(h=>{
     const isDone = !!hd[h.id];
@@ -357,7 +384,7 @@ function toggleHabit(d, hid, el){
   if(done === HABITS.length) celebrate();
 }
 
-function celebrate(){ const el=document.createElement("div"); el.className="celebrate"; el.textContent="🕌🍛 4AM • PRAYER • LUNCH • CODE 🔥"; document.body.appendChild(el); setTimeout(()=>el.remove(),2200); }
+function celebrate(){ const el=document.createElement("div"); el.className="celebrate"; el.textContent="🔥 DAY COMPLETE! 🔥"; document.body.appendChild(el); setTimeout(()=>el.remove(),2200); }
 
 function phaseTitle(d){
   const titles = ["Own Your 4AM","Destroy Laziness","Your Why in English","Vision Board","Routine Master","Discipline Cost","Week1 Champion",
@@ -366,10 +393,11 @@ function phaseTitle(d){
     "Face Self-Doubt","Quran & Strength","Wealth Mindset","Consistency King","Reading Habit","Embrace Cold","Week4 Mental Shift",
     "Plan Next Year","Day30 Comparison","Dream App Sketch","Network & Connect","Income Goal","Faith over Fear","Week5 Vision",
     "Letter to Day1 Me","Habits That Stay","Biggest Win","Future Letter","40 Lessons","I AM TRANSFORMED"];
-  return titles[d-1] || `Day ${d} — 4AM · Prayer · Lunch · English & Code`;
+  return titles[d-1] || `Day ${d}`;
 }
 
 buildGrid();
+restoreOverlayIfNeeded();
 </script>
 </body>
 </html>
