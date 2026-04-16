@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Daily">
+<meta name="application-name" content="Daily Tracker">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="description" content="My personal daily schedule tracker">
+<link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Daily%20Tracker%22,%22short_name%22:%22Daily%22,%22description%22:%22My%20personal%20daily%20schedule%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%230a0a0f%22,%22theme_color%22:%22%230a0a0f%22,%22orientation%22:%22portrait%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A//www.w3.org/2000/svg'%20viewBox%3D'0%200%20512%20512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20rx%3D'100'%20fill%3D'%230a0a0f'/%3E%3Ctext%20x%3D'50%25'%20y%3D'54%25'%20font-size%3D'300'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3E%F0%9F%97%93%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22512x512%22,%22type%22:%22image/svg+xml%22,%22purpose%22:%22any%20maskable%22}]}">
+<title>Daily Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0a0f;--surface:#13131a;--surface2:#1c1c26;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#f0eff8;--muted:#6e6d82;--subtle:#3a3a52;
+  --green:#22d87a;--green-dim:rgba(34,216,122,0.12);
+  --blue:#4d9eff;--blue-dim:rgba(77,158,255,0.12);
+  --amber:#ffb84d;--amber-dim:rgba(255,184,77,0.12);
+  --coral:#ff6b6b;--coral-dim:rgba(255,107,107,0.12);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.12);
+  --r:14px;--r-sm:9px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
+body{background:var(--bg);background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(77,158,255,0.06) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 10% 80%,rgba(167,139,250,0.05) 0%,transparent 60%);min-height:100vh}
+.app{max-width:480px;margin:0 auto;padding:28px 16px 100px}
+
+/* Install banner */
+.install-banner{background:linear-gradient(135deg,rgba(77,158,255,0.13),rgba(167,139,250,0.08));border:0.5px solid rgba(77,158,255,0.22);border-radius:var(--r-sm);padding:14px;margin-bottom:20px}
+.ib-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ib-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:7px}
+.ib-close{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0;line-height:1}
+.ib-close:hover{color:var(--text)}
+.ib-step{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
+.ib-num{background:var(--blue-dim);color:var(--blue);font-family:'Syne',sans-serif;font-size:10px;font-weight:700;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ib-step p{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300}
+.ib-step code{background:var(--surface2);border-radius:4px;padding:1px 5px;font-size:11px;color:var(--text);font-family:monospace}
+
+/* Header */
+.app-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--text);letter-spacing:-0.5px;margin-bottom:3px}
+.app-name span{color:var(--blue)}
+.date-line{font-size:13px;color:var(--muted);font-weight:300;margin-bottom:24px}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:12px 10px;text-align:center}
+.stat-n{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--text)}
+.stat-n.green{color:var(--green)}
+.stat-l{font-size:11px;color:var(--muted);margin-top:1px;font-weight:300;letter-spacing:0.02em}
+
+/* Progress */
+.prog-wrap{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.prog-label{font-size:11px;color:var(--muted);font-weight:400;letter-spacing:0.06em;text-transform:uppercase;font-family:'Syne',sans-serif}
+.prog-pct{font-size:13px;font-weight:500;color:var(--text)}
+.prog-track{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--green));transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+
+/* Streak */
+.streak-bar{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.streak-left{display:flex;align-items:center;gap:8px}
+.streak-text{font-size:13px;color:var(--muted);font-weight:300}
+.streak-text strong{color:var(--amber);font-weight:500}
+.streak-badge{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--amber)}
+
+/* Section */
+.section-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px 2px}
+
+/* Block */
+.block{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:13px 14px;margin-bottom:7px;cursor:pointer;transition:background 0.15s,opacity 0.25s;user-select:none;-webkit-user-select:none;position:relative;overflow:hidden}
+.block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px 0 0 2px;opacity:0}
+.block.prayer::before{background:var(--green);opacity:1}
+.block.must::before{background:var(--coral);opacity:1}
+.block.deep::before{background:var(--blue);opacity:1}
+.block.light::before{background:var(--amber);opacity:1}
+.block:active{background:var(--surface2);transform:scale(0.99)}
+.block.done{opacity:0.4}
+.block.done .check{background:var(--green);border-color:var(--green)}
+.block.done .check::after{opacity:1}
+
+.check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--subtle);flex-shrink:0;margin-top:1px;position:relative;transition:all 0.2s}
+.check::after{content:'';position:absolute;left:5px;top:2px;width:6px;height:10px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg);opacity:0;transition:opacity 0.2s}
+
+.binfo{flex:1;min-width:0}
+.btop{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.btitle{font-size:14px;font-weight:500;color:var(--text);line-height:1.3}
+.badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;font-family:'Syne',sans-serif;letter-spacing:0.03em}
+.badge-prayer{background:var(--green-dim);color:var(--green)}
+.badge-must{background:var(--coral-dim);color:var(--coral)}
+.badge-deep{background:var(--blue-dim);color:var(--blue)}
+.badge-light{background:var(--amber-dim);color:var(--amber)}
+.btime{font-size:11px;color:var(--muted);margin-top:3px;font-weight:300}
+.btasks{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.55;font-weight:300}
+
+.reset-wrap{text-align:center;margin-top:24px}
+.reset-btn{background:none;border:0.5px solid var(--border2);color:var(--muted);font-size:12px;font-family:'Syne',sans-serif;letter-spacing:0.06em;text-transform:uppercase;padding:9px 22px;border-radius:99px;cursor:pointer;transition:background 0.15s,color 0.15s}
+.reset-btn:hover{background:var(--surface2);color:var(--text)}
+
+@keyframes pop{0%{transform:scale(0.7);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes fadeOut{0%{opacity:1;transform:translateY(0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(-30px) scale(1.3)}}
+.just-done .check{animation:pop 0.3s ease forwards}
+.celebrate{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-size:72px;pointer-events:none;z-index:9999;animation:fadeOut 2s ease forwards}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="install-banner" id="installBanner">
+    <div class="ib-top">
+      <div class="ib-title">📲 Install in Chrome — 3 steps</div>
+      <button class="ib-close" onclick="closeBanner()">✕</button>
+    </div>
+    <div class="ib-step"><div class="ib-num">1</div><p>Click the <code>⋮</code> menu (top-right of Chrome)</p></div>
+    <div class="ib-step"><div class="ib-num">2</div><p>Go to <code>More tools</code> → <code>Create shortcut…</code></p></div>
+    <div class="ib-step"><div class="ib-num">3</div><p>Tick <code>Open as window</code> → click <code>Create</code> ✓</p></div>
+  </div>
+
+  <div class="app-name">Daily<span>.</span></div>
+  <div class="date-line" id="dateStr"></div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n green" id="sDone">0</div><div class="stat-l">Done</div></div>
+    <div class="stat"><div class="stat-n" id="sLeft">0</div><div class="stat-l">Left</div></div>
+    <div class="stat"><div class="stat-n" id="sPct">0%</div><div class="stat-l">Progress</div></div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-label">Today's Progress</span>
+      <span class="prog-pct" id="progText">0 / 13</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="streak-bar">
+    <div class="streak-left">
+      <span style="font-size:18px">🔥</span>
+      <span class="streak-text">Day streak: <strong id="streakNum">0</strong></span>
+    </div>
+    <span class="streak-badge" id="streakLabel">Keep going!</span>
+  </div>
+
+  <div id="blocks"></div>
+  <div class="reset-wrap"><button class="reset-btn" onclick="resetDay()">↺ Reset Day</button></div>
+</div>
+
+<script>
+const SCHEDULE=[
+  {section:"🌅 Morning",items:[
+    {id:"tahajjud",time:"4:30 – 5:20",title:"Tahajjud + Fajr",tasks:"Quran recitation",type:"prayer"},
+    {id:"deepwork",time:"5:20 – 7:00",title:"Deep Work — DSA & Backend",tasks:"Recursion / Arrays · Node.js",type:"must"},
+    {id:"exercise",time:"7:00 – 7:40",title:"Exercise",tasks:"Pushups 3× · Squats 3× · Plank · Stretching",type:"light"},
+    {id:"bath",time:"7:40 – 8:15",title:"Bath + Breakfast",tasks:null,type:null},
+    {id:"hub",time:"8:15 – 9:00",title:"Go to Hub",tasks:null,type:null},
+  ]},
+  {section:"💻 Hub Time",items:[
+    {id:"hub1",time:"9:00 – 11:00",title:"Deep Work — Build Project",tasks:"API / Backend features",type:"deep"},
+    {id:"hub2",time:"11:00 – 1:00",title:"Continue Coding",tasks:"Fix bugs · New features",type:"deep"},
+    {id:"lunch",time:"1:00 – 2:00",title:"Lunch + Rest",tasks:null,type:null},
+    {id:"learn",time:"2:00 – 4:00",title:"Learn + Apply",tasks:"Node.js · MongoDB",type:"deep"},
+    {id:"lwork",time:"4:00 – 5:30",title:"Light Work",tasks:"Debug · Notes · Improve old code",type:"light"},
+  ]},
+  {section:"🌇 Evening",items:[
+    {id:"prayer2",time:"6:30 – 7:30",title:"Prayer + Relax",tasks:null,type:"prayer"},
+    {id:"revision",time:"7:30 – 9:00",title:"Light Learning / Revision",tasks:null,type:null},
+    {id:"sleep",time:"10:00",title:"Sleep",tasks:"Very important — don't skip!",type:null},
+  ]},
+];
+
+const ALL_IDS=SCHEDULE.flatMap(s=>s.items.map(i=>i.id));
+const TOTAL=ALL_IDS.length;
+const TODAY=new Date().toDateString();
+const KEY="tracker_done_"+TODAY;
+const S_KEY="tracker_streak";
+const L_KEY="tracker_last_day";
+let done=JSON.parse(localStorage.getItem(KEY)||"[]");
+
+function save(){localStorage.setItem(KEY,JSON.stringify(done))}
+function closeBanner(){document.getElementById("installBanner").style.display="none";localStorage.setItem("banner_closed","1")}
+
+function toggle(id,el){
+  if(done.includes(id)){done=done.filter(x=>x!==id)}
+  else{done.push(id);el.classList.add("just-done");setTimeout(()=>el.classList.remove("just-done"),400);if(done.length===TOTAL)celebrate()}
+  save();updateStreak();refreshBlock(id);updateStats();
+}
+
+function refreshBlock(id){
+  const el=document.getElementById("b_"+id);
+  if(!el)return;
+  if(done.includes(id))el.classList.add("done");else el.classList.remove("done");
+}
+
+function resetDay(){if(!confirm("Reset today's progress?"))return;done=[];save();updateStats();ALL_IDS.forEach(id=>refreshBlock(id))}
+
+function celebrate(){const el=document.createElement("div");el.className="celebrate";el.textContent="🎉";document.body.appendChild(el);setTimeout(()=>el.remove(),2100)}
+
+function updateStats(){
+  const comp=done.length,left=TOTAL-comp,pct=Math.round(comp/TOTAL*100);
+  document.getElementById("sDone").textContent=comp;
+  document.getElementById("sLeft").textContent=left;
+  document.getElementById("sPct").textContent=pct+"%";
+  document.getElementById("progText").textContent=comp+" / "+TOTAL;
+  document.getElementById("progFill").style.width=pct+"%";
+}
+
+function updateStreak(){
+  let streak=parseInt(localStorage.getItem(S_KEY)||"0");
+  const last=localStorage.getItem(L_KEY);
+  if(done.length===TOTAL&&last!==TODAY){
+    const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+    streak=(last===yesterday.toDateString())?streak+1:1;
+    localStorage.setItem(S_KEY,streak);localStorage.setItem(L_KEY,TODAY);
+  }
+  document.getElementById("streakNum").textContent=streak;
+  document.getElementById("streakLabel").textContent=streak>=7?"Mashallah! 🌟":streak>=3?"On fire! 🔥":"Keep going!";
+}
+
+function buildUI(){
+  document.getElementById("dateStr").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  if(localStorage.getItem("banner_closed")==="1")document.getElementById("installBanner").style.display="none";
+  const BADGE={prayer:"Prayer",must:"MUST",deep:"Deep Work",light:"Light Work"};
+  const container=document.getElementById("blocks");container.innerHTML="";
+  SCHEDULE.forEach(sec=>{
+    const sh=document.createElement("div");sh.className="section-title";sh.textContent=sec.section;container.appendChild(sh);
+    sec.items.forEach(item=>{
+      const el=document.createElement("div");
+      el.id="b_"+item.id;
+      el.className="block"+(item.type?" "+item.type:"")+(done.includes(item.id)?" done":"");
+      el.onclick=()=>toggle(item.id,el);
+      el.innerHTML=`<div class="check"></div><div class="binfo"><div class="btop"><span class="btitle">${item.title}</span>${item.type?`<span class="badge badge-${item.type}">${BADGE[item.type]}</span>`:""}</div><div class="btime">${item.time}</div>${item.tasks?`<div class="btasks">${item.tasks}</div>`:""}</div>`;
+      container.appendChild(el);
+    });
+  });
+}
+
+buildUI();updateStats();updateStreak();
+</script>
+</body>
+</html>
