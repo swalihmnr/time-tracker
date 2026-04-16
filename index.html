@@ -112,7 +112,6 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 @keyframes fadeOut{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-60%) scale(1.3)}}
 .just-done .hcheck{animation:pop 0.3s ease}
 @keyframes pop{0%{transform:scale(0.7)}100%{transform:scale(1)}}
-.prayer-badge{background:rgba(77,158,255,0.15);border-left:3px solid var(--blue);margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -131,12 +130,11 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 
 <div class="day-overlay" id="dayOverlay">
   <div class="day-inner">
-    <div class="day-header"><button class="back-btn" onclick="closeDay()">←</button><div class="day-hinfo"><div class="day-hnum" id="dNum"></div><div class="day-htitle" id="dTitle"></div></div></div>
+    <div class="day-header"><button class="back-btn" id="closeOverlayBtn">←</button><div class="day-hinfo"><div class="day-hnum" id="dNum"></div><div class="day-htitle" id="dTitle"></div></div></div>
     <div id="dPhaseBadge"></div>
     <div id="dSpecial"></div>
     <div id="dVideoCard"></div>
     
-    <!-- COLLAPSIBLE SCHEDULE CARD (EXACT 4AM TIMINGS with PRAYER + LUNCH) -->
     <div class="schedule-card" id="scheduleCard">
       <div class="schedule-header" id="scheduleToggle">
         <div class="schedule-title">⏱️ YOUR EXACT DAY: 4:00 AM → 9:30 PM (Prayer • Lunch 1–2PM)</div>
@@ -154,7 +152,6 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 </div>
 
 <script>
-// ======================== EXACT 4:00 AM SCHEDULE (PRAYER + LUNCH 1-2PM INCLUDED) =====================
 const DAILY_SCHEDULE = [
   { time: "4:00 – 4:15 AM", emoji: "🌅", task: "Wake, freshen up, wudu" },
   { time: "4:15 – 5:00 AM", emoji: "🕌", task: "Tahajjud + Fajr + Quran (with translation) — PRAYER" },
@@ -176,7 +173,6 @@ const DAILY_SCHEDULE = [
   { time: "9:30 PM", emoji: "💤", task: "SLEEP (strict — 7.5 hours recovery)" }
 ];
 
-// 15 HABITS aligned with schedule (prayer & lunch as separate checkpoints)
 const HABITS = [
   { id: "wake_wudu",       icon: "🌅", label: "Wake 4:00 AM + wudu",            sub: "Start before sunrise", timeRange: "4:00-4:15 AM" },
   { id: "tahajjud_fajr",   icon: "🕌", label: "Tahajjud + Fajr + Quran",        sub: "PRAYER — spiritual anchor", timeRange: "4:15-5:00 AM" },
@@ -217,7 +213,7 @@ const SPECIALS = {
   41:{icon:"🔥",text:"41 DAYS: 4AM warrior. English fluent. Backend ready. Prayer steadfast."},
 };
 
-const STORE_KEY = "transform41_v7_prayer_lunch";
+const STORE_KEY = "transform41_v8_nav_fixed";
 let data = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
 function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
 function dayData(d){ if(!data[d]) data[d] = { habits:{} }; return data[d]; }
@@ -274,8 +270,53 @@ function buildGrid(){
 }
 
 let activeDay = null;
-function openDay(d){ if(d > currentDay()) return; activeDay = d; renderDay(d); document.getElementById("dayOverlay").classList.add("open"); window.scrollTo(0,0); }
-function closeDay(){ document.getElementById("dayOverlay").classList.remove("open"); setTimeout(buildGrid, 350); }
+
+// FIXED: proper overlay navigation with history API
+function openDay(d){
+  if(d > currentDay()) return;
+  activeDay = d;
+  renderDay(d);
+  document.getElementById("dayOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+  
+  // Push state so back button closes overlay
+  history.pushState({ overlayOpen: true, day: d }, "", "#day-" + d);
+  window.scrollTo(0,0);
+}
+
+function closeDay(shouldPopHistory = true){
+  document.getElementById("dayOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+  if(shouldPopHistory && history.state && history.state.overlayOpen){
+    // Don't pop here, let the popstate handler do it
+  }
+  setTimeout(() => {
+    buildGrid();
+    if(activeDay){
+      activeDay = null;
+    }
+  }, 350);
+}
+
+// Handle browser back button
+window.addEventListener("popstate", function(event) {
+  const overlay = document.getElementById("dayOverlay");
+  if(overlay.classList.contains("open")){
+    closeDay(false);
+    // Remove the hash
+    if(window.location.hash) history.pushState(null, "", window.location.pathname);
+  }
+});
+
+// Handle manual close button
+document.getElementById("closeOverlayBtn").addEventListener("click", function(){
+  closeDay(true);
+  if(history.state && history.state.overlayOpen){
+    history.back();
+  } else {
+    history.pushState(null, "", window.location.pathname);
+  }
+});
 
 function renderDay(d){
   const phase = getPhase(d); const hd = dayData(d).habits;
