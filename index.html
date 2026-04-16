@@ -4,240 +4,331 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Daily">
-<meta name="application-name" content="Daily Tracker">
-<meta name="theme-color" content="#0a0a0f">
-<meta name="description" content="My personal daily schedule tracker">
-<link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Daily%20Tracker%22,%22short_name%22:%22Daily%22,%22description%22:%22My%20personal%20daily%20schedule%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%230a0a0f%22,%22theme_color%22:%22%230a0a0f%22,%22orientation%22:%22portrait%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A//www.w3.org/2000/svg'%20viewBox%3D'0%200%20512%20512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20rx%3D'100'%20fill%3D'%230a0a0f'/%3E%3Ctext%20x%3D'50%25'%20y%3D'54%25'%20font-size%3D'300'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3E%F0%9F%97%93%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22512x512%22,%22type%22:%22image/svg+xml%22,%22purpose%22:%22any%20maskable%22}]}">
-<title>Daily Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-title" content="41 Days — 4AM Schedule">
+<meta name="theme-color" content="#080810">
+<title>41-Day Transformation | 4AM • Prayer • Lunch • English + Backend</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0a0a0f;--surface:#13131a;--surface2:#1c1c26;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
-  --text:#f0eff8;--muted:#6e6d82;--subtle:#3a3a52;
-  --green:#22d87a;--green-dim:rgba(34,216,122,0.12);
-  --blue:#4d9eff;--blue-dim:rgba(77,158,255,0.12);
-  --amber:#ffb84d;--amber-dim:rgba(255,184,77,0.12);
-  --coral:#ff6b6b;--coral-dim:rgba(255,107,107,0.12);
-  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.12);
-  --r:14px;--r-sm:9px;
+:root{
+  --bg:#080810;--s1:#10101c;--s2:#18182a;--s3:#222238;
+  --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);
+  --txt:#eeedf8;--m:#6b6a85;--sub:#3a3a58;
+  --gold:#f5c842;--goldd:rgba(245,200,66,0.13);
+  --blue:#4d9eff;--blued:rgba(77,158,255,0.13);
+  --green:#22d87a;--greend:rgba(34,216,122,0.12);
+  --coral:#ff6b6b;--corald:rgba(255,107,107,0.12);
+  --purple:#a78bfa;--purpled:rgba(167,139,250,0.12);
+  --amber:#ffb347;--amberd:rgba(255,179,71,0.12);
+  --r:14px;--rsm:9px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
-body{background:var(--bg);background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(77,158,255,0.06) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 10% 80%,rgba(167,139,250,0.05) 0%,transparent 60%);min-height:100vh}
-.app{max-width:480px;margin:0 auto;padding:28px 16px 100px}
+html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif}
+body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,0.04) 0%,transparent 60%)}
 
-/* Install banner */
-.install-banner{background:linear-gradient(135deg,rgba(77,158,255,0.13),rgba(167,139,250,0.08));border:0.5px solid rgba(77,158,255,0.22);border-radius:var(--r-sm);padding:14px;margin-bottom:20px}
-.ib-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.ib-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:7px}
-.ib-close{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0;line-height:1}
-.ib-close:hover{color:var(--text)}
-.ib-step{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
-.ib-num{background:var(--blue-dim);color:var(--blue);font-family:'Syne',sans-serif;font-size:10px;font-weight:700;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.ib-step p{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300}
-.ib-step code{background:var(--surface2);border-radius:4px;padding:1px 5px;font-size:11px;color:var(--text);font-family:monospace}
+.grid-view{max-width:540px;margin:0 auto;padding:28px 16px 80px}
+.top-banner{background:linear-gradient(135deg,rgba(245,200,66,0.1),rgba(77,158,255,0.07));border:0.5px solid rgba(245,200,66,0.2);border-radius:var(--r);padding:18px 20px;margin-bottom:28px;position:relative;overflow:hidden}
+.tb-tag{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.tb-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
+.tb-sub{font-size:13px;color:var(--m);font-weight:300;line-height:1.5;margin-bottom:14px}
+.tb-bar-wrap{background:rgba(0,0,0,0.3);border-radius:99px;height:5px;margin-bottom:6px}
+.tb-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--amber));transition:width 0.6s ease}
+.tb-stats{display:flex;gap:16px;flex-wrap:wrap}
+.tb-stat{font-size:12px;color:var(--m);font-weight:300}
+.tb-stat strong{color:var(--txt);font-weight:500}
 
-/* Header */
-.app-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--text);letter-spacing:-0.5px;margin-bottom:3px}
-.app-name span{color:var(--blue)}
-.date-line{font-size:13px;color:var(--muted);font-weight:300;margin-bottom:24px}
+.phases{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.phase-pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:99px;font-family:'Syne',sans-serif;border:0.5px solid transparent}
+.grid-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--m);margin-bottom:12px}
+.days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day-cell{aspect-ratio:1;border-radius:10px;border:0.5px solid var(--bd);background:var(--s1);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform 0.15s;position:relative;overflow:hidden}
+.day-cell:active{transform:scale(0.93)}
+.day-cell.future{opacity:0.35;cursor:default}
+.day-cell.today{border-color:var(--gold) !important;box-shadow:0 0 0 1px rgba(245,200,66,0.2)}
+.day-cell.complete{border-color:rgba(34,216,122,0.3)}
+.day-cell .dc-num{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;line-height:1;color:var(--txt)}
+.day-cell .dc-dots{display:flex;gap:2px}
+.day-cell .dc-dot{width:4px;height:4px;border-radius:50%;background:var(--sub)}
+.day-cell .dc-dot.on{background:var(--green)}
+.day-cell .dc-bar{position:absolute;bottom:0;left:0;right:0;height:2px}
+.day-cell.empty{background:transparent;border-color:transparent;cursor:default}
+.day-cell[data-phase="1"] .dc-bar{background:var(--blue)}
+.day-cell[data-phase="2"] .dc-bar{background:var(--purple)}
+.day-cell[data-phase="3"] .dc-bar{background:var(--gold)}
+.day-cell[data-phase="4"] .dc-bar{background:var(--coral)}
+.day-cell[data-phase="5"] .dc-bar{background:var(--green)}
+.day-cell[data-phase="6"] .dc-bar{background:var(--amber)}
 
-/* Stats */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
-.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:12px 10px;text-align:center}
-.stat-n{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--text)}
-.stat-n.green{color:var(--green)}
-.stat-l{font-size:11px;color:var(--muted);margin-top:1px;font-weight:300;letter-spacing:0.02em}
+/* OVERLAY */
+.day-overlay{position:fixed;inset:0;background:var(--bg);z-index:100;overflow-y:auto;transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)}
+.day-overlay.open{transform:translateX(0)}
+.day-inner{max-width:540px;margin:0 auto;padding:0 16px 80px}
+.day-header{padding:20px 0 0;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-btn{background:var(--s2);border:0.5px solid var(--bd2);color:var(--txt);font-size:18px;width:38px;height:38px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.day-hinfo{flex:1}
+.day-hnum{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--m)}
+.day-htitle{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.3px}
+.phase-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:99px;margin-bottom:16px}
+.video-card{border-radius:var(--r);padding:16px;margin-bottom:16px;background:linear-gradient(135deg,rgba(255,107,107,0.1),rgba(255,107,107,0.04));border:0.5px solid rgba(255,107,107,0.2)}
+.vc-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;color:var(--coral)}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:var(--coral);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.vc-topic{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--txt);line-height:1.35;margin-bottom:8px}
+.vc-hint{font-size:12px;color:var(--m);font-weight:300;line-height:1.5}
 
-/* Progress */
-.prog-wrap{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px}
-.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.prog-label{font-size:11px;color:var(--muted);font-weight:400;letter-spacing:0.06em;text-transform:uppercase;font-family:'Syne',sans-serif}
-.prog-pct{font-size:13px;font-weight:500;color:var(--text)}
-.prog-track{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden}
-.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--green));transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1)}
-
-/* Streak */
-.streak-bar{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.streak-left{display:flex;align-items:center;gap:8px}
-.streak-text{font-size:13px;color:var(--muted);font-weight:300}
-.streak-text strong{color:var(--amber);font-weight:500}
-.streak-badge{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--amber)}
-
-/* Section */
-.section-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px 2px}
-
-/* Block */
-.block{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:13px 14px;margin-bottom:7px;cursor:pointer;transition:background 0.15s,opacity 0.25s;user-select:none;-webkit-user-select:none;position:relative;overflow:hidden}
-.block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px 0 0 2px;opacity:0}
-.block.prayer::before{background:var(--green);opacity:1}
-.block.must::before{background:var(--coral);opacity:1}
-.block.deep::before{background:var(--blue);opacity:1}
-.block.light::before{background:var(--amber);opacity:1}
-.block:active{background:var(--surface2);transform:scale(0.99)}
-.block.done{opacity:0.4}
-.block.done .check{background:var(--green);border-color:var(--green)}
-.block.done .check::after{opacity:1}
-
-.check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--subtle);flex-shrink:0;margin-top:1px;position:relative;transition:all 0.2s}
-.check::after{content:'';position:absolute;left:5px;top:2px;width:6px;height:10px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg);opacity:0;transition:opacity 0.2s}
-
-.binfo{flex:1;min-width:0}
-.btop{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.btitle{font-size:14px;font-weight:500;color:var(--text);line-height:1.3}
-.badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;font-family:'Syne',sans-serif;letter-spacing:0.03em}
-.badge-prayer{background:var(--green-dim);color:var(--green)}
-.badge-must{background:var(--coral-dim);color:var(--coral)}
-.badge-deep{background:var(--blue-dim);color:var(--blue)}
-.badge-light{background:var(--amber-dim);color:var(--amber)}
-.btime{font-size:11px;color:var(--muted);margin-top:3px;font-weight:300}
-.btasks{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.55;font-weight:300}
-
-.reset-wrap{text-align:center;margin-top:24px}
-.reset-btn{background:none;border:0.5px solid var(--border2);color:var(--muted);font-size:12px;font-family:'Syne',sans-serif;letter-spacing:0.06em;text-transform:uppercase;padding:9px 22px;border-radius:99px;cursor:pointer;transition:background 0.15s,color 0.15s}
-.reset-btn:hover{background:var(--surface2);color:var(--text)}
-
-@keyframes pop{0%{transform:scale(0.7);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
-@keyframes fadeOut{0%{opacity:1;transform:translateY(0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(-30px) scale(1.3)}}
-.just-done .check{animation:pop 0.3s ease forwards}
+/* schedule card with toggle */
+.schedule-card{background:rgba(34,216,122,0.05);border:0.5px solid rgba(34,216,122,0.2);border-radius:var(--r);margin-bottom:18px;overflow:hidden}
+.schedule-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;background:rgba(34,216,122,0.08);transition:background 0.2s}
+.schedule-header:active{background:rgba(34,216,122,0.15)}
+.schedule-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--green);display:flex;gap:8px;align-items:center}
+.toggle-icon{font-size:18px;color:var(--gold);transition:transform 0.2s}
+.schedule-content{padding:0 16px 16px 16px;transition:max-height 0.25s ease-out, padding 0.2s;overflow:hidden}
+.schedule-content.collapsed{max-height:0 !important;padding:0 16px !important}
+.schedule-grid{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.sched-item{display:flex;align-items:baseline;gap:8px;font-size:12px;border-bottom:0.5px dashed rgba(255,255,255,0.1);padding-bottom:6px}
+.sched-time{font-family:'DM Sans',monospace;font-weight:600;color:var(--gold);min-width:85px;font-size:11px}
+.sched-desc{color:var(--txt);font-weight:400}
+.sched-emoji{font-size:13px}
+.habits-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--m);margin:14px 0 8px}
+.habit{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--s1);border:0.5px solid var(--bd);border-radius:var(--r);margin-bottom:6px;cursor:pointer;transition:all 0.15s}
+.habit:active{background:var(--s2)}
+.habit.done{opacity:0.55}
+.habit.done .hcheck{background:var(--green);border-color:var(--green)}
+.habit.done .hcheck::after{opacity:1}
+.hcheck{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--sub);flex-shrink:0;position:relative}
+.hcheck::after{content:'';position:absolute;left:6px;top:3px;width:7px;height:11px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg);opacity:0;transition:opacity 0.2s}
+.hicon{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.hlabel-group{flex:1}
+.hlabel{font-size:14px;font-weight:500;color:var(--txt);line-height:1.3}
+.htime{font-size:10px;font-weight:400;color:var(--gold);background:rgba(245,200,66,0.12);display:inline-block;padding:2px 6px;border-radius:20px;margin-left:8px}
+.hsub{font-size:11px;color:var(--m);margin-top:2px}
+.day-prog{background:var(--s1);border:0.5px solid var(--bd);border-radius:var(--rsm);padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.dp-ring{width:44px;height:44px;flex-shrink:0;position:relative}
+.dp-ring svg{transform:rotate(-90deg)}
+.dp-ring .ring-bg{fill:none;stroke:var(--s3);stroke-width:4}
+.dp-ring .ring-fg{fill:none;stroke:var(--green);stroke-width:4;stroke-linecap:round}
+.dp-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;font-weight:700}
+.special-banner{background:linear-gradient(135deg,rgba(245,200,66,0.12),rgba(245,200,66,0.04));border:0.5px solid rgba(245,200,66,0.25);border-radius:var(--r);padding:14px 16px;margin-bottom:16px}
 .celebrate{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-size:72px;pointer-events:none;z-index:9999;animation:fadeOut 2s ease forwards}
+@keyframes fadeOut{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-60%) scale(1.3)}}
+.just-done .hcheck{animation:pop 0.3s ease}
+@keyframes pop{0%{transform:scale(0.7)}100%{transform:scale(1)}}
+.prayer-badge{background:rgba(77,158,255,0.15);border-left:3px solid var(--blue);margin-bottom:4px}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="grid-view" id="gridView">
+  <div class="top-banner">
+    <div class="tb-tag">⚡ 4:00 AM WAKE • PRAYER • LUNCH 1–2PM • HUB TRAVEL</div>
+    <div class="tb-title">41-Day Transformation</div>
+    <div class="tb-sub">Wake 4:00 AM • Fajr/Tahajjud • 1:00–2:00 PM lunch • Maghrib/Isha • Sleep 9:30 PM</div>
+    <div class="tb-bar-wrap"><div class="tb-bar" id="overallBar" style="width:0%"></div></div>
+    <div class="tb-stats"><div class="tb-stat">Days done: <strong id="statDays">0</strong></div><div class="tb-stat">Tasks done: <strong id="statTasks">0</strong></div><div class="tb-stat">Overall: <strong id="statPct">0%</strong></div></div>
+  </div>
+  <div class="phases" id="phasePills"></div>
+  <div class="grid-label">📅 tap any day → full 4AM routine (prayer & lunch included)</div>
+  <div class="days-grid" id="daysGrid"></div>
+</div>
 
-  <div class="install-banner" id="installBanner">
-    <div class="ib-top">
-      <div class="ib-title">📲 Install in Chrome — 3 steps</div>
-      <button class="ib-close" onclick="closeBanner()">✕</button>
+<div class="day-overlay" id="dayOverlay">
+  <div class="day-inner">
+    <div class="day-header"><button class="back-btn" onclick="closeDay()">←</button><div class="day-hinfo"><div class="day-hnum" id="dNum"></div><div class="day-htitle" id="dTitle"></div></div></div>
+    <div id="dPhaseBadge"></div>
+    <div id="dSpecial"></div>
+    <div id="dVideoCard"></div>
+    
+    <!-- COLLAPSIBLE SCHEDULE CARD (EXACT 4AM TIMINGS with PRAYER + LUNCH) -->
+    <div class="schedule-card" id="scheduleCard">
+      <div class="schedule-header" id="scheduleToggle">
+        <div class="schedule-title">⏱️ YOUR EXACT DAY: 4:00 AM → 9:30 PM (Prayer • Lunch 1–2PM)</div>
+        <div class="toggle-icon" id="toggleIcon">▲</div>
+      </div>
+      <div class="schedule-content" id="scheduleContent">
+        <div class="schedule-grid" id="scheduleGrid"></div>
+      </div>
     </div>
-    <div class="ib-step"><div class="ib-num">1</div><p>Click the <code>⋮</code> menu (top-right of Chrome)</p></div>
-    <div class="ib-step"><div class="ib-num">2</div><p>Go to <code>More tools</code> → <code>Create shortcut…</code></p></div>
-    <div class="ib-step"><div class="ib-num">3</div><p>Tick <code>Open as window</code> → click <code>Create</code> ✓</p></div>
+    
+    <div class="day-prog"><div class="dp-ring"><svg viewBox="0 0 44 44" width="44" height="44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fg" id="dRingFg" cx="22" cy="22" r="18" stroke-dasharray="113" stroke-dashoffset="113"/></svg><div class="dp-pct" id="dRingPct">0%</div></div><div class="dp-info"><div class="dp-label" id="dProgLabel">0 of 15 habits done</div><div class="dp-sub" id="dProgSub">Track each habit — 4AM discipline with prayer & lunch</div></div></div>
+    <div class="habits-title">✅ DAILY HABITS (track your progress)</div>
+    <div id="dHabits"></div>
   </div>
-
-  <div class="app-name">Daily<span>.</span></div>
-  <div class="date-line" id="dateStr"></div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-n green" id="sDone">0</div><div class="stat-l">Done</div></div>
-    <div class="stat"><div class="stat-n" id="sLeft">0</div><div class="stat-l">Left</div></div>
-    <div class="stat"><div class="stat-n" id="sPct">0%</div><div class="stat-l">Progress</div></div>
-  </div>
-
-  <div class="prog-wrap">
-    <div class="prog-top">
-      <span class="prog-label">Today's Progress</span>
-      <span class="prog-pct" id="progText">0 / 13</span>
-    </div>
-    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-  </div>
-
-  <div class="streak-bar">
-    <div class="streak-left">
-      <span style="font-size:18px">🔥</span>
-      <span class="streak-text">Day streak: <strong id="streakNum">0</strong></span>
-    </div>
-    <span class="streak-badge" id="streakLabel">Keep going!</span>
-  </div>
-
-  <div id="blocks"></div>
-  <div class="reset-wrap"><button class="reset-btn" onclick="resetDay()">↺ Reset Day</button></div>
 </div>
 
 <script>
-const SCHEDULE=[
-  {section:"🌅 Morning",items:[
-    {id:"tahajjud",time:"4:30 – 5:20",title:"Tahajjud + Fajr",tasks:"Quran recitation",type:"prayer"},
-    {id:"deepwork",time:"5:20 – 7:00",title:"Deep Work — DSA & Backend",tasks:"Recursion / Arrays · Node.js",type:"must"},
-    {id:"exercise",time:"7:00 – 7:40",title:"Exercise",tasks:"Pushups 3× · Squats 3× · Plank · Stretching",type:"light"},
-    {id:"bath",time:"7:40 – 8:15",title:"Bath + Breakfast",tasks:null,type:null},
-    {id:"hub",time:"8:15 – 9:00",title:"Go to Hub",tasks:null,type:null},
-  ]},
-  {section:"💻 Hub Time",items:[
-    {id:"hub1",time:"9:00 – 11:00",title:"Deep Work — Build Project",tasks:"API / Backend features",type:"deep"},
-    {id:"hub2",time:"11:00 – 1:00",title:"Continue Coding",tasks:"Fix bugs · New features",type:"deep"},
-    {id:"lunch",time:"1:00 – 2:00",title:"Lunch + Rest",tasks:null,type:null},
-    {id:"learn",time:"2:00 – 4:00",title:"Learn + Apply",tasks:"Node.js · MongoDB",type:"deep"},
-    {id:"lwork",time:"4:00 – 5:30",title:"Light Work",tasks:"Debug · Notes · Improve old code",type:"light"},
-  ]},
-  {section:"🌇 Evening",items:[
-    {id:"prayer2",time:"6:30 – 7:30",title:"Prayer + Relax",tasks:null,type:"prayer"},
-    {id:"revision",time:"7:30 – 9:00",title:"Light Learning / Revision",tasks:null,type:null},
-    {id:"sleep",time:"10:00",title:"Sleep",tasks:"Very important — don't skip!",type:null},
-  ]},
+// ======================== EXACT 4:00 AM SCHEDULE (PRAYER + LUNCH 1-2PM INCLUDED) =====================
+const DAILY_SCHEDULE = [
+  { time: "4:00 – 4:15 AM", emoji: "🌅", task: "Wake, freshen up, wudu" },
+  { time: "4:15 – 5:00 AM", emoji: "🕌", task: "Tahajjud + Fajr + Quran (with translation) — PRAYER" },
+  { time: "5:00 – 7:00 AM", emoji: "🧠", task: "DEEP WORK — DSA + Backend (Node.js)" },
+  { time: "7:00 – 7:40 AM", emoji: "💪", task: "Exercise — Pushups, Squats, Plank" },
+  { time: "7:40 – 8:15 AM", emoji: "❄️", task: "COLD BATH + get ready (mental toughness)" },
+  { time: "8:15 – 9:00 AM", emoji: "🚶", task: "Travel to hub (45 minutes)" },
+  { time: "9:00 – 11:00 AM", emoji: "🚀", task: "DEEP WORK — Build project (API, DB, auth)" },
+  { time: "11:00 – 1:00 PM", emoji: "⚡", task: "Continue coding + fix bugs" },
+  { time: "1:00 – 2:00 PM", emoji: "🍛", task: "LUNCH + short rest / dhikr (1 hour break)" },
+  { time: "2:00 – 4:00 PM", emoji: "🇬🇧", task: "ENGLISH IMMERSION — grammar, vocab, speaking, write log" },
+  { time: "4:00 – 5:30 PM", emoji: "🪶", task: "Light work — debug, code review, English notes" },
+  { time: "5:30 – 6:30 PM", emoji: "🌇", task: "Break, walk, prepare for evening" },
+  { time: "6:30 – 7:30 PM", emoji: "🕌", task: "MAGHRIB + ISHA prayer + relax, reflect — PRAYER" },
+  { time: "7:30 – 8:30 PM", emoji: "🗣️", task: "English speaking practice (shadowing) + backend revision" },
+  { time: "8:30 – 9:00 PM", emoji: "📖", task: "READING (10-15 pages — English fluency)" },
+  { time: "9:00 – 9:15 PM", emoji: "📝", task: "Plan tomorrow, wind down" },
+  { time: "9:15 – 9:30 PM", emoji: "🛁", task: "Prepare for sleep" },
+  { time: "9:30 PM", emoji: "💤", task: "SLEEP (strict — 7.5 hours recovery)" }
 ];
 
-const ALL_IDS=SCHEDULE.flatMap(s=>s.items.map(i=>i.id));
-const TOTAL=ALL_IDS.length;
-const TODAY=new Date().toDateString();
-const KEY="tracker_done_"+TODAY;
-const S_KEY="tracker_streak";
-const L_KEY="tracker_last_day";
-let done=JSON.parse(localStorage.getItem(KEY)||"[]");
+// 15 HABITS aligned with schedule (prayer & lunch as separate checkpoints)
+const HABITS = [
+  { id: "wake_wudu",       icon: "🌅", label: "Wake 4:00 AM + wudu",            sub: "Start before sunrise", timeRange: "4:00-4:15 AM" },
+  { id: "tahajjud_fajr",   icon: "🕌", label: "Tahajjud + Fajr + Quran",        sub: "PRAYER — spiritual anchor", timeRange: "4:15-5:00 AM" },
+  { id: "deepwork_dsa",    icon: "🧠", label: "Deep Work: DSA + Backend",       sub: "2h focus · recursion/Node", timeRange: "5:00-7:00 AM" },
+  { id: "exercise",        icon: "💪", label: "Exercise (pushups/squats/plank)", sub: "Physical discipline", timeRange: "7:00-7:40 AM" },
+  { id: "cold_bath",       icon: "❄️", label: "COLD BATH",                      sub: "Mental toughness", timeRange: "7:40-8:15 AM" },
+  { id: "travel_hub",      icon: "🚶", label: "Travel to hub (45 min)",         sub: "Commitment to space", timeRange: "8:15-9:00 AM" },
+  { id: "deepwork_project", icon: "🚀", label: "Build project (API/DB/auth)",   sub: "Backend craft", timeRange: "9:00-11:00 AM" },
+  { id: "coding_fix",      icon: "⚡", label: "Continue coding + fix bugs",     sub: "Problem solving", timeRange: "11:00-1:00 PM" },
+  { id: "lunch_rest",      icon: "🍛", label: "LUNCH + rest / dhikr (1-2PM)",   sub: "Fuel & reset", timeRange: "1:00-2:00 PM" },
+  { id: "english_immersion",icon: "🇬🇧", label: "ENGLISH IMMERSION (2h)",        sub: "grammar, vocab, writing", timeRange: "2:00-4:00 PM" },
+  { id: "lightwork_notes", icon: "🪶", label: "Debug + code review + English notes", sub: "Polish skills", timeRange: "4:00-5:30 PM" },
+  { id: "maghrib_isha",    icon: "🕌", label: "MAGHRIB + ISHA prayer + reflection", sub: "PRAYER — evening worship", timeRange: "6:30-7:30 PM" },
+  { id: "english_speak",   icon: "🗣️", label: "English speaking (shadowing)",   sub: "Fluency training", timeRange: "7:30-8:30 PM" },
+  { id: "reading",         icon: "📖", label: "READING (10-15 pages)",          sub: "English fluency + knowledge", timeRange: "8:30-9:00 PM" },
+  { id: "sleep_by_9_30",   icon: "💤", label: "Sleep by 9:30 PM",               sub: "7.5h recovery · strict", timeRange: "9:30 PM" }
+];
 
-function save(){localStorage.setItem(KEY,JSON.stringify(done))}
-function closeBanner(){document.getElementById("installBanner").style.display="none";localStorage.setItem("banner_closed","1")}
+const PHASES = [
+  { num:1, days:[1,7],   name:"Awakening",    color:"var(--blue)",   bg:"var(--blued)",   emoji:"🌅" },
+  { num:2, days:[8,14],  name:"Discipline",   color:"var(--purple)", bg:"var(--purpled)", emoji:"⚔️" },
+  { num:3, days:[15,21], name:"Skill",        color:"var(--gold)",   bg:"var(--goldd)",   emoji:"🛠️" },
+  { num:4, days:[22,28], name:"Mind",         color:"var(--coral)",  bg:"var(--corald)",  emoji:"🧠" },
+  { num:5, days:[29,35], name:"Vision",       color:"var(--green)",  bg:"var(--greend)",  emoji:"🔭" },
+  { num:6, days:[36,41], name:"Rebirth",      color:"var(--amber)",  bg:"var(--amberd)",  emoji:"🔥" },
+];
 
-function toggle(id,el){
-  if(done.includes(id)){done=done.filter(x=>x!==id)}
-  else{done.push(id);el.classList.add("just-done");setTimeout(()=>el.classList.remove("just-done"),400);if(done.length===TOTAL)celebrate()}
-  save();updateStreak();refreshBlock(id);updateStats();
+const VIDEOS = Array(41).fill().map((_,i)=> `Day ${i+1} reflection — ${i<7?"Awakening":i<14?"Discipline":i<21?"Skill":i<28?"Mind":i<35?"Vision":"Rebirth"} step`);
+const VIDEO_HINTS = Array(41).fill("Record 2-3 minutes speaking in English about your daily progress. Mention prayer, lunch break, and coding wins.");
+
+const SPECIALS = {
+  1:{icon:"🌱",text:"Day 1 — 4:00 AM wake achieved. Prayer and lunch schedule locked."},
+  7:{icon:"🏆",text:"Week 1 — 7 days of 4AM discipline. Fajr & Maghrib consistent."},
+  14:{icon:"⚔️",text:"Two weeks — hub travel + lunch break discipline mastered."},
+  21:{icon:"🧠",text:"Halfway: Record a 3-min English video about your prayer routine."},
+  30:{icon:"👑",text:"30 days — you balance coding, English, prayers & lunch perfectly."},
+  40:{icon:"🌟",text:"Day 40 — Tomorrow you become the standard."},
+  41:{icon:"🔥",text:"41 DAYS: 4AM warrior. English fluent. Backend ready. Prayer steadfast."},
+};
+
+const STORE_KEY = "transform41_v7_prayer_lunch";
+let data = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+function dayData(d){ if(!data[d]) data[d] = { habits:{} }; return data[d]; }
+function habitsDone(d){ const h = dayData(d).habits; return HABITS.filter(x => h[x.id]).length; }
+function getPhase(d){ return PHASES.find(p => d >= p.days[0] && d <= p.days[1]) || PHASES[0]; }
+
+function getStartDate(){ let s = localStorage.getItem("t41_start"); if(!s){ s = new Date().toDateString(); localStorage.setItem("t41_start", s); } return new Date(s); }
+function currentDay(){ const start = getStartDate(); const now = new Date(); const diff = Math.floor((now - start) / 86400000) + 1; return Math.min(Math.max(diff, 1), 41); }
+
+let scheduleCollapsed = false;
+function initScheduleToggle(){
+  const toggleBtn = document.getElementById("scheduleToggle");
+  const contentDiv = document.getElementById("scheduleContent");
+  const iconSpan = document.getElementById("toggleIcon");
+  if(!toggleBtn || !contentDiv) return;
+  contentDiv.classList.remove("collapsed");
+  iconSpan.innerHTML = "▲";
+  scheduleCollapsed = false;
+  toggleBtn.onclick = (e) => {
+    e.stopPropagation();
+    if(scheduleCollapsed){
+      contentDiv.classList.remove("collapsed");
+      iconSpan.innerHTML = "▲";
+      scheduleCollapsed = false;
+    } else {
+      contentDiv.classList.add("collapsed");
+      iconSpan.innerHTML = "▼";
+      scheduleCollapsed = true;
+    }
+  };
 }
 
-function refreshBlock(id){
-  const el=document.getElementById("b_"+id);
-  if(!el)return;
-  if(done.includes(id))el.classList.add("done");else el.classList.remove("done");
-}
-
-function resetDay(){if(!confirm("Reset today's progress?"))return;done=[];save();updateStats();ALL_IDS.forEach(id=>refreshBlock(id))}
-
-function celebrate(){const el=document.createElement("div");el.className="celebrate";el.textContent="🎉";document.body.appendChild(el);setTimeout(()=>el.remove(),2100)}
-
-function updateStats(){
-  const comp=done.length,left=TOTAL-comp,pct=Math.round(comp/TOTAL*100);
-  document.getElementById("sDone").textContent=comp;
-  document.getElementById("sLeft").textContent=left;
-  document.getElementById("sPct").textContent=pct+"%";
-  document.getElementById("progText").textContent=comp+" / "+TOTAL;
-  document.getElementById("progFill").style.width=pct+"%";
-}
-
-function updateStreak(){
-  let streak=parseInt(localStorage.getItem(S_KEY)||"0");
-  const last=localStorage.getItem(L_KEY);
-  if(done.length===TOTAL&&last!==TODAY){
-    const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
-    streak=(last===yesterday.toDateString())?streak+1:1;
-    localStorage.setItem(S_KEY,streak);localStorage.setItem(L_KEY,TODAY);
+function buildGrid(){
+  const today = currentDay();
+  let totalDone = 0;
+  for(let d=1; d<=today; d++) totalDone += habitsDone(d);
+  const pct = today>0 ? Math.round((totalDone/(today*HABITS.length))*100) : 0;
+  document.getElementById("overallBar").style.width = ((today-1)/41*100)+"%";
+  document.getElementById("statDays").textContent = (today-1)+" / 41";
+  document.getElementById("statTasks").textContent = totalDone;
+  document.getElementById("statPct").textContent = pct+"%";
+  const pillsCt = document.getElementById("phasePills"); pillsCt.innerHTML = "";
+  PHASES.forEach(p=>{ let el=document.createElement("div"); el.className="phase-pill"; el.style.color=p.color; el.style.background=p.bg; el.textContent=p.emoji+" "+p.name; pillsCt.appendChild(el); });
+  const grid = document.getElementById("daysGrid"); grid.innerHTML = "";
+  for(let d=1; d<=41; d++){
+    const phase = getPhase(d); const done = habitsDone(d); const isToday = d===today; const isFuture = d>today; const isFull = done===HABITS.length && !isFuture;
+    const cell = document.createElement("div"); cell.className = "day-cell"+(isFuture?" future":"")+(isToday?" today":"")+(isFull?" complete":""); cell.setAttribute("data-phase", phase.num);
+    if(!isFuture) cell.onclick = () => openDay(d);
+    const dotsHtml = HABITS.slice(0,5).map(h=>{ const on = !isFuture && dayData(d).habits[h.id]; return `<div class="dc-dot${on?" on":""}"></div>`; }).join("");
+    cell.innerHTML = `<div class="dc-num">${d}</div><div class="dc-dots">${dotsHtml}</div><div class="dc-bar"></div>`;
+    grid.appendChild(cell);
   }
-  document.getElementById("streakNum").textContent=streak;
-  document.getElementById("streakLabel").textContent=streak>=7?"Mashallah! 🌟":streak>=3?"On fire! 🔥":"Keep going!";
+  const rem = (7 - (41 % 7)) % 7; for(let i=0;i<rem;i++){ let empty=document.createElement("div"); empty.className="day-cell empty"; grid.appendChild(empty); }
 }
 
-function buildUI(){
-  document.getElementById("dateStr").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-  if(localStorage.getItem("banner_closed")==="1")document.getElementById("installBanner").style.display="none";
-  const BADGE={prayer:"Prayer",must:"MUST",deep:"Deep Work",light:"Light Work"};
-  const container=document.getElementById("blocks");container.innerHTML="";
-  SCHEDULE.forEach(sec=>{
-    const sh=document.createElement("div");sh.className="section-title";sh.textContent=sec.section;container.appendChild(sh);
-    sec.items.forEach(item=>{
-      const el=document.createElement("div");
-      el.id="b_"+item.id;
-      el.className="block"+(item.type?" "+item.type:"")+(done.includes(item.id)?" done":"");
-      el.onclick=()=>toggle(item.id,el);
-      el.innerHTML=`<div class="check"></div><div class="binfo"><div class="btop"><span class="btitle">${item.title}</span>${item.type?`<span class="badge badge-${item.type}">${BADGE[item.type]}</span>`:""}</div><div class="btime">${item.time}</div>${item.tasks?`<div class="btasks">${item.tasks}</div>`:""}</div>`;
-      container.appendChild(el);
-    });
+let activeDay = null;
+function openDay(d){ if(d > currentDay()) return; activeDay = d; renderDay(d); document.getElementById("dayOverlay").classList.add("open"); window.scrollTo(0,0); }
+function closeDay(){ document.getElementById("dayOverlay").classList.remove("open"); setTimeout(buildGrid, 350); }
+
+function renderDay(d){
+  const phase = getPhase(d); const hd = dayData(d).habits;
+  document.getElementById("dNum").textContent = `Day ${d} · ${phase.emoji} ${phase.name} Phase`;
+  document.getElementById("dTitle").textContent = phaseTitle(d);
+  document.getElementById("dPhaseBadge").innerHTML = `<div class="phase-badge" style="background:${phase.bg};color:${phase.color}">${phase.emoji} Phase ${phase.num} — ${phase.name} | Prayer • Lunch 1-2PM</div>`;
+  document.getElementById("dSpecial").innerHTML = SPECIALS[d] ? `<div class="special-banner"><div class="sb-icon">${SPECIALS[d].icon}</div><div class="sb-text">${SPECIALS[d].text}</div></div>` : "";
+  document.getElementById("dVideoCard").innerHTML = `<div class="video-card"><div class="vc-label"><div class="rec-dot"></div> DAILY ENGLISH VIDEO</div><div class="vc-topic">"${VIDEOS[d-1]}"</div><div class="vc-hint">💡 ${VIDEO_HINTS[d-1]} Speak about your prayers, lunch break, and how 4AM changes you.</div></div>`;
+  
+  const scheduleGrid = document.getElementById("scheduleGrid");
+  if(scheduleGrid){
+    scheduleGrid.innerHTML = DAILY_SCHEDULE.map(s => `<div class="sched-item"><span class="sched-time">${s.time}</span><span class="sched-emoji">${s.emoji}</span><span class="sched-desc">${s.task}</span></div>`).join('');
+  }
+  initScheduleToggle();
+  
+  const doneCount = habitsDone(d); const pct = Math.round(doneCount/HABITS.length*100); const circumference = 113;
+  document.getElementById("dRingFg").style.strokeDashoffset = circumference - (circumference * pct / 100);
+  document.getElementById("dRingPct").textContent = pct+"%";
+  document.getElementById("dProgLabel").textContent = doneCount+" of "+HABITS.length+" habits done";
+  document.getElementById("dProgSub").textContent = doneCount===HABITS.length ? "PERFECT DAY! 4AM • Prayer • Lunch • Code • English ✅" : (HABITS.length-doneCount)+" left → follow your 4AM schedule with prayer & lunch";
+  
+  const habCt = document.getElementById("dHabits"); habCt.innerHTML = "";
+  HABITS.forEach(h=>{
+    const isDone = !!hd[h.id];
+    const el = document.createElement("div"); el.className = "habit"+(isDone?" done":""); el.onclick = () => toggleHabit(d, h.id, el);
+    el.innerHTML = `<div class="hcheck"></div><div class="hicon">${h.icon}</div><div class="hlabel-group"><div class="hlabel">${h.label} <span class="htime">⏰ ${h.timeRange}</span></div><div class="hsub">${h.sub}</div></div>`;
+    habCt.appendChild(el);
   });
 }
 
-buildUI();updateStats();updateStreak();
+function toggleHabit(d, hid, el){
+  const hd = dayData(d).habits; hd[hid] = !hd[hid]; save();
+  if(hd[hid]){ el.classList.add("done","just-done"); setTimeout(()=>el.classList.remove("just-done"),400); } else { el.classList.remove("done"); }
+  const done = habitsDone(d); const pct = Math.round(done/HABITS.length*100); const circumference = 113;
+  document.getElementById("dRingFg").style.strokeDashoffset = circumference - (circumference * pct / 100);
+  document.getElementById("dRingPct").textContent = pct+"%";
+  document.getElementById("dProgLabel").textContent = done+" of "+HABITS.length+" habits done";
+  if(done === HABITS.length) celebrate();
+}
+
+function celebrate(){ const el=document.createElement("div"); el.className="celebrate"; el.textContent="🕌🍛 4AM • PRAYER • LUNCH • CODE 🔥"; document.body.appendChild(el); setTimeout(()=>el.remove(),2200); }
+
+function phaseTitle(d){
+  const titles = ["Own Your 4AM","Destroy Laziness","Your Why in English","Vision Board","Routine Master","Discipline Cost","Week1 Champion",
+    "Rise Early","Beat Procrastination","Body & Soul","Node.js Deep Dive","Prayer & Focus","Kill Distractions","Week2 Strong",
+    "Master Recursion","Build Real API","Solve DSA","Backend Path","Debug Like Pro","Learning System","Halfway English Check",
+    "Face Self-Doubt","Quran & Strength","Wealth Mindset","Consistency King","Reading Habit","Embrace Cold","Week4 Mental Shift",
+    "Plan Next Year","Day30 Comparison","Dream App Sketch","Network & Connect","Income Goal","Faith over Fear","Week5 Vision",
+    "Letter to Day1 Me","Habits That Stay","Biggest Win","Future Letter","40 Lessons","I AM TRANSFORMED"];
+  return titles[d-1] || `Day ${d} — 4AM · Prayer · Lunch · English & Code`;
+}
+
+buildGrid();
 </script>
 </body>
 </html>
