@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="41 Days">
 <meta name="theme-color" content="#080810">
-<title>41-Day Transformation | 4AM • English System • Backend • 3-Min Prep Reminders</title>
+<title>41-Day Transformation | 4AM • English System • Continuous Alarm IST</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -38,8 +38,6 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 .stats-row{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:0.5px solid var(--bd);gap:12px}
 .time-stat{background:var(--s2);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:500}
 .time-stat span{color:var(--gold);font-weight:700}
-.reminder-badge{background:rgba(245,200,66,0.2);border-radius:20px;padding:4px 10px;font-size:10px;color:var(--gold);margin-left:8px}
-.prep-badge{background:rgba(77,158,255,0.3);color:var(--blue);border-radius:20px;padding:2px 6px;font-size:9px;margin-left:6px}
 
 .phases{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
 .phase-pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:99px;font-family:'Syne',sans-serif;border:0.5px solid transparent}
@@ -138,14 +136,19 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 .summary-label{font-size:13px;font-weight:500;color:var(--txt)}
 .summary-value{font-size:16px;font-weight:800;color:var(--green)}
 .summary-value.comm{color:var(--blue)}
+
+/* Floating Stop Alarm Button */
+.alarm-overlay{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:1000;background:linear-gradient(135deg,#ff4444,#cc0000);border:none;border-radius:60px;padding:14px 28px;color:white;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:1px;box-shadow:0 0 30px rgba(255,0,0,0.6);cursor:pointer;animation:pulse 0.8s infinite;display:none;align-items:center;gap:12px;border:2px solid rgba(255,255,255,0.3);}
+.alarm-overlay:active{transform:translateX(-50%) scale(0.96);}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,68,68,0.7);}70%{box-shadow:0 0 0 20px rgba(255,68,68,0);}100%{box-shadow:0 0 0 0 rgba(255,68,68,0);}}
 </style>
 </head>
 <body>
 <div class="grid-view" id="gridView">
   <div class="top-banner">
-    <div class="tb-tag">⚡ 4:00 AM • 2H ENGLISH SYSTEM • BACKEND • 3-MIN PREP REMINDERS</div>
+    <div class="tb-tag">⚡ 4:00 AM • 2H ENGLISH SYSTEM • CONTINUOUS ALARM (IST)</div>
     <div class="tb-title">41-Day Transformation</div>
-    <div class="tb-sub">Wake 4:00 AM • 2-Hour English Immersion (7 steps) • Fajr • Hub • Code • Sleep 9:30 PM</div>
+    <div class="tb-sub">Wake 4:00 AM • 2-Hour English Immersion (7 steps) • Fajr • Hub • Code • Sleep 9:30 PM • IST</div>
     <div class="tb-bar-wrap"><div class="tb-bar" id="overallBar" style="width:0%"></div></div>
     <div class="tb-stats">
       <div class="tb-stat">Days done: <strong id="statDays">0</strong></div>
@@ -155,7 +158,7 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
     <div class="stats-row">
       <div class="time-stat">💻 Tech: <span id="techHours">0</span> hrs</div>
       <div class="time-stat">🗣️ Comm: <span id="commHours">0</span> hrs</div>
-      <div class="time-stat">🔔 <span id="reminderStatus">Reminders Active</span></div>
+      <div class="time-stat">🕰️ IST: <span id="istClock">--:--:--</span></div>
     </div>
   </div>
   <div class="phases" id="phasePills"></div>
@@ -171,7 +174,7 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
     <div id="dVideoCard"></div>
     <div class="schedule-card" id="scheduleCard">
       <div class="schedule-header" id="scheduleToggle">
-        <div class="schedule-title">⏱️ YOUR EXACT DAY: 4:00 AM → 9:30 PM <span class="prep-badge">⏰ 3-min prep alerts</span></div>
+        <div class="schedule-title">⏱️ YOUR EXACT DAY: 4:00 AM → 9:30 PM (IST)</div>
         <div class="toggle-icon" id="toggleIcon">▲</div>
       </div>
       <div class="schedule-content" id="scheduleContent"><div class="schedule-grid" id="scheduleGrid"></div></div>
@@ -183,12 +186,18 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
   </div>
 </div>
 
+<!-- Floating Stop Alarm Button -->
+<button id="stopAlarmBtn" class="alarm-overlay">🔴 STOP ALARM 🔴</button>
+
 <script>
-// ======================== SOUND NOTIFICATION SYSTEM WITH 3-MIN PREP ========================
+// ======================== CONTINUOUS ALARM SYSTEM (IST) ========================
 let audioCtx = null;
 let reminderInterval = null;
-let lastRemindedStartMinute = -1;
-let lastRemindedPrepMinute = -1;
+let activeAlarmInterval = null;
+let currentActiveReminder = null;
+let lastTriggeredTime = null;
+
+const stopAlarmBtn = document.getElementById("stopAlarmBtn");
 
 function initAudio() {
   if (audioCtx) return;
@@ -197,7 +206,7 @@ function initAudio() {
   } catch(e) { console.log("Web Audio API not supported"); }
 }
 
-function playBeep(frequency = 880, duration = 0.6) {
+function playContinuousBeep() {
   if (!audioCtx) {
     initAudio();
     if (!audioCtx) return;
@@ -210,38 +219,84 @@ function playBeep(frequency = 880, duration = 0.6) {
     const gainNode = audioCtx.createGain();
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-    oscillator.frequency.value = frequency;
-    gainNode.gain.value = 0.25;
+    oscillator.frequency.value = 880;
+    gainNode.gain.value = 0.35;
     oscillator.start();
-    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
-    oscillator.stop(audioCtx.currentTime + duration);
+    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.45);
+    oscillator.stop(audioCtx.currentTime + 0.45);
   } catch(e) { console.log("Beep failed"); }
 }
 
-function playPrepBeep() {
-  playBeep(660, 0.4); // Slightly different tone for prep reminders
+function startContinuousAlarm(reminderTask) {
+  if (activeAlarmInterval) clearInterval(activeAlarmInterval);
+  currentActiveReminder = reminderTask;
+  stopAlarmBtn.style.display = "flex";
+  activeAlarmInterval = setInterval(() => {
+    playContinuousBeep();
+  }, 500);
+  if (Notification.permission === 'granted') {
+    new Notification("🔔 TIME TO START! 🔔", { body: reminderTask, icon: "https://favicon.io/favicon.ico" });
+  }
 }
 
-// Schedule reminders with 3-minute advance notice
+function stopAlarm() {
+  if (activeAlarmInterval) {
+    clearInterval(activeAlarmInterval);
+    activeAlarmInterval = null;
+  }
+  stopAlarmBtn.style.display = "none";
+  currentActiveReminder = null;
+  if (lastTriggeredTime) lastTriggeredTime = null;
+}
+
+stopAlarmBtn.addEventListener("click", () => {
+  stopAlarm();
+});
+
+function getCurrentIST() {
+  const now = new Date();
+  const istOffset = 5.5 * 60 * 60 * 1000;
+  const istDate = new Date(now.getTime() + istOffset);
+  return istDate;
+}
+
+function getCurrentISTMinutes() {
+  const istDate = getCurrentIST();
+  return istDate.getUTCHours() * 60 + istDate.getUTCMinutes();
+}
+
+function updateISTClock() {
+  const istDate = getCurrentIST();
+  let hours = istDate.getUTCHours();
+  const minutes = istDate.getUTCMinutes().toString().padStart(2,'0');
+  const seconds = istDate.getUTCSeconds().toString().padStart(2,'0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  const clockSpan = document.getElementById("istClock");
+  if (clockSpan) clockSpan.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+}
+
+// Schedule reminders with 3-minute advance notice (AM/PM format internally stored as 24h for calculation)
 const REMINDER_SCHEDULE = [
-  { time: "4:00", task: "🌅 WAKE UP! 4:00 AM - Freshen up & Wudu", prepTime: "3:57" },
-  { time: "4:15", task: "🕌 Tahajjud + Fajr + Quran time", prepTime: "4:12" },
-  { time: "5:00", task: "🧠 Deep Work: DSA + Backend (2 hours) - START NOW!", prepTime: "4:57" },
-  { time: "7:00", task: "💪 Exercise time! Pushups, Squats, Plank", prepTime: "6:57" },
-  { time: "7:40", task: "❄️ COLD BATH time! Build mental toughness", prepTime: "7:37" },
-  { time: "8:15", task: "🚶 Travel to hub (45 min journey)", prepTime: "8:12" },
-  { time: "9:00", task: "🚀 Deep Work: Build project (API, DB, Auth)", prepTime: "8:57" },
-  { time: "11:00", task: "⚡ Continue coding + fix bugs", prepTime: "10:57" },
-  { time: "13:00", task: "🍛 LUNCH time + short rest", prepTime: "12:57" },
-  { time: "14:00", task: "🇬🇧 2-HOUR ENGLISH SYSTEM starts! 7 steps", prepTime: "13:57" },
-  { time: "16:00", task: "🪶 Light work: Debug, review, notes", prepTime: "15:57" },
-  { time: "17:30", task: "🌇 Break & walk time", prepTime: "17:27" },
-  { time: "18:30", task: "🕌 MAGHRIB + ISHA prayer", prepTime: "18:27" },
-  { time: "19:30", task: "🗣️ English speaking + backend revision", prepTime: "19:27" },
-  { time: "20:30", task: "📖 READING time (10-15 pages)", prepTime: "20:27" },
-  { time: "21:00", task: "📝 Plan tomorrow & wind down", prepTime: "20:57" },
-  { time: "21:15", task: "🛁 Prepare for sleep", prepTime: "21:12" },
-  { time: "21:30", task: "💤 SLEEP time! Good night", prepTime: "21:27" }
+  { time24: "4:00", timeDisplay: "4:00 AM", task: "🌅 WAKE UP! 4:00 AM IST - Freshen up & Wudu", prepTime24: "3:57" },
+  { time24: "4:15", timeDisplay: "4:15 AM", task: "🕌 Tahajjud + Fajr + Quran time (IST)", prepTime24: "4:12" },
+  { time24: "5:00", timeDisplay: "5:00 AM", task: "🧠 Deep Work: DSA + Backend (2 hours) - START NOW!", prepTime24: "4:57" },
+  { time24: "7:00", timeDisplay: "7:00 AM", task: "💪 Exercise time! Pushups, Squats, Plank", prepTime24: "6:57" },
+  { time24: "7:40", timeDisplay: "7:40 AM", task: "❄️ COLD BATH time! Build mental toughness", prepTime24: "7:37" },
+  { time24: "8:15", timeDisplay: "8:15 AM", task: "🚶 Travel to hub (45 min journey)", prepTime24: "8:12" },
+  { time24: "9:00", timeDisplay: "9:00 AM", task: "🚀 Deep Work: Build project (API, DB, Auth)", prepTime24: "8:57" },
+  { time24: "11:00", timeDisplay: "11:00 AM", task: "⚡ Continue coding + fix bugs", prepTime24: "10:57" },
+  { time24: "13:00", timeDisplay: "1:00 PM", task: "🍛 LUNCH time + short rest", prepTime24: "12:57" },
+  { time24: "14:00", timeDisplay: "2:00 PM", task: "🇬🇧 2-HOUR ENGLISH SYSTEM starts! 7 steps", prepTime24: "13:57" },
+  { time24: "16:00", timeDisplay: "4:00 PM", task: "🪶 Light work: Debug, review, notes", prepTime24: "15:57" },
+  { time24: "17:30", timeDisplay: "5:30 PM", task: "🌇 Break & walk time", prepTime24: "17:27" },
+  { time24: "18:30", timeDisplay: "6:30 PM", task: "🕌 MAGHRIB + ISHA prayer (IST)", prepTime24: "18:27" },
+  { time24: "19:30", timeDisplay: "7:30 PM", task: "🗣️ English speaking + backend revision", prepTime24: "19:27" },
+  { time24: "20:30", timeDisplay: "8:30 PM", task: "📖 READING time (10-15 pages)", prepTime24: "20:27" },
+  { time24: "21:00", timeDisplay: "9:00 PM", task: "📝 Plan tomorrow & wind down", prepTime24: "20:57" },
+  { time24: "21:15", timeDisplay: "9:15 PM", task: "🛁 Prepare for sleep", prepTime24: "21:12" },
+  { time24: "21:30", timeDisplay: "9:30 PM", task: "💤 SLEEP time! Good night", prepTime24: "21:27" }
 ];
 
 function parseTimeToMinutes(timeStr) {
@@ -249,48 +304,33 @@ function parseTimeToMinutes(timeStr) {
   return hour * 60 + minute;
 }
 
-function showNotification(task, isPrep = false) {
-  if (Notification.permission === 'granted') {
-    new Notification(isPrep ? "⏰ 3-Minute Prep Reminder" : "🔔 Time to Start", { 
-      body: task, 
-      icon: "https://favicon.io/favicon.ico" 
-    });
-  }
-}
-
-function checkAndPlayReminders() {
-  const now = new Date();
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+function checkAndTriggerAlarms() {
+  const currentMinutes = getCurrentISTMinutes();
   
-  // Check for START reminders (at exact time)
   for (let reminder of REMINDER_SCHEDULE) {
-    const startMinutes = parseTimeToMinutes(reminder.time);
-    if (Math.abs(currentMinutes - startMinutes) <= 1 && lastRemindedStartMinute !== startMinutes) {
-      playBeep(880, 0.7);
-      lastRemindedStartMinute = startMinutes;
-      showNotification(reminder.task, false);
+    const startMinutes = parseTimeToMinutes(reminder.time24);
+    if (Math.abs(currentMinutes - startMinutes) <= 1 && lastTriggeredTime !== startMinutes && !activeAlarmInterval) {
+      lastTriggeredTime = startMinutes;
+      startContinuousAlarm(reminder.task);
       const statusSpan = document.getElementById("reminderStatus");
       if (statusSpan) {
-        const originalText = statusSpan.textContent;
-        statusSpan.textContent = "🔔 START: " + reminder.task.substring(0, 35) + "...";
-        setTimeout(() => { if(statusSpan) statusSpan.textContent = originalText; }, 4000);
+        statusSpan.textContent = "🔔 ALARM: " + reminder.task.substring(0, 35) + "...";
+        setTimeout(() => { if(statusSpan) statusSpan.textContent = "Reminders Active"; }, 5000);
       }
       break;
     }
   }
   
-  // Check for PREP reminders (3 minutes before)
   for (let reminder of REMINDER_SCHEDULE) {
-    const prepMinutes = parseTimeToMinutes(reminder.prepTime);
-    if (Math.abs(currentMinutes - prepMinutes) <= 1 && lastRemindedPrepMinute !== prepMinutes) {
-      playPrepBeep();
-      lastRemindedPrepMinute = prepMinutes;
-      showNotification(`⏰ 3 min until: ${reminder.task}`, true);
+    const prepMinutes = parseTimeToMinutes(reminder.prepTime24);
+    if (Math.abs(currentMinutes - prepMinutes) <= 1 && lastTriggeredTime !== prepMinutes) {
       const statusSpan = document.getElementById("reminderStatus");
       if (statusSpan) {
-        const originalText = statusSpan.textContent;
         statusSpan.textContent = "⏰ PREP: " + reminder.task.substring(0, 35) + " in 3 min...";
-        setTimeout(() => { if(statusSpan) statusSpan.textContent = originalText; }, 4000);
+        setTimeout(() => { if(statusSpan) statusSpan.textContent = "Reminders Active"; }, 4000);
+      }
+      if (Notification.permission === 'granted') {
+        new Notification("⏰ 3-Minute Prep", { body: reminder.task, icon: "https://favicon.io/favicon.ico" });
       }
       break;
     }
@@ -299,11 +339,14 @@ function checkAndPlayReminders() {
 
 function startReminders() {
   if (reminderInterval) clearInterval(reminderInterval);
-  reminderInterval = setInterval(checkAndPlayReminders, 15000); // Check every 15 seconds for more accuracy
-  checkAndPlayReminders();
+  reminderInterval = setInterval(() => {
+    checkAndTriggerAlarms();
+    updateISTClock();
+  }, 1000);
+  checkAndTriggerAlarms();
+  updateISTClock();
 }
 
-// Request notification permission on first user interaction
 document.body.addEventListener('click', function initNotifications() {
   if (Notification.permission === 'default') {
     Notification.requestPermission();
@@ -394,7 +437,7 @@ const SPECIALS = {
   41:{icon:"🔥",text:"41 DAYS — You are a STANDARD in English!"},
 };
 
-const STORE_KEY = "transform41_v15_3min_prep";
+const STORE_KEY = "transform41_v17_am_pm_format";
 const OVERLAY_STATE_KEY = "transform41_current_day";
 let data = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
 function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
@@ -495,7 +538,7 @@ function renderDay(d){
   const allStepsCompleted = dynamicSteps.every(step => engSteps[step.id] === true);
   const { techHours, commHours } = calculateTechAndCommHours(d);
   
-  document.getElementById("dNum").textContent = `Day ${d} · ${phase.emoji} ${phase.name} Phase`;
+  document.getElementById("dNum").textContent = `Day ${d} · ${phase.emoji} ${phase.name} Phase (IST)`;
   document.getElementById("dTitle").textContent = phaseTitle(d);
   document.getElementById("dPhaseBadge").innerHTML = `<div class="phase-badge" style="background:${phase.bg};color:${phase.color}">${phase.emoji} Phase ${phase.num} — ${phase.name} | 2H English System</div>`;
   document.getElementById("dSpecial").innerHTML = SPECIALS[d] ? `<div class="special-banner"><div class="sb-icon">${SPECIALS[d].icon}</div><div class="sb-text">${SPECIALS[d].text}</div></div>` : "";
@@ -526,7 +569,7 @@ function renderDay(d){
       if(!allStepsCompleted && hd.english_immersion) subDiv.classList.add("expanded");
       else if(!allStepsCompleted && !hd.english_immersion) subDiv.classList.add("expanded");
       const weekBadge = document.createElement("div"); weekBadge.className = "week-rotation"; 
-      weekBadge.innerHTML = `<span>📆 ${weekTopic.day}'s Communication:</span><span class="week-day comm-topic">🎯 ${weekTopic.topic}</span>`;
+      weekBadge.innerHTML = `<span>📆 ${weekTopic.day}'s Communication (IST):</span><span class="week-day comm-topic">🎯 ${weekTopic.topic}</span>`;
       subDiv.appendChild(weekBadge);
       dynamicSteps.forEach(step=>{
         const stepDone = !!engSteps[step.id];
@@ -543,12 +586,12 @@ function renderDay(d){
   const summaryDiv = document.getElementById("summarySection");
   summaryDiv.innerHTML = `
     <div class="summary-section">
-      <div class="summary-title">📊 TODAY'S TIME INVESTMENT</div>
+      <div class="summary-title">📊 TODAY'S TIME INVESTMENT (IST)</div>
       <div class="summary-row"><span class="summary-label">💻 Tech / Coding Hours:</span><span class="summary-value">${techHours} hrs</span></div>
       <div class="summary-row"><span class="summary-label">🗣️ English Communication:</span><span class="summary-value comm">${commHours > 0 ? commHours + " hr ✓" : "0 hrs (Not yet)"}</span></div>
       <div class="summary-row"><span class="summary-label">🇬🇧 Total English System Time:</span><span class="summary-value">2 hrs (7 steps)</span></div>
       <div class="summary-row"><span class="summary-label">⏰ Total Productive Hours:</span><span class="summary-value">${(techHours + (commHours > 0 ? 0.33 : 0) + 2).toFixed(1)} hrs</span></div>
-      <div class="summary-row"><span class="summary-label">🔔 Reminders:</span><span class="summary-value">Start + 3-min prep ⏰</span></div>
+      <div class="summary-row"><span class="summary-label">🔔 Alarm:</span><span class="summary-value">Continuous beep until STOP</span></div>
     </div>
   `;
 }
@@ -574,7 +617,6 @@ function toggleEnglishStep(d, sid, el, dynamicSteps, wrapper){
       const labelGroup = mainHabitEl.querySelector('.hlabel-group .hlabel');
       if(labelGroup) labelGroup.innerHTML += '<span class="complete-badge">✓ COMPLETED</span>';
     }
-    playBeep(880, 0.7);
   } else if(!allStepsDone && hd.english_immersion){
     hd.english_immersion = false;
     save();
@@ -596,7 +638,7 @@ function updateProgress(d){
   document.getElementById("dProgLabel").textContent = (mainDone+subDone)+" of "+total+" total";
   if((mainDone+subDone) === total) celebrate();
 }
-function celebrate(){ const el=document.createElement("div"); el.className="celebrate"; el.textContent="🗣️🇬🇧 7-STEPS COMPLETE! AUTO-HIDDEN ✅"; document.body.appendChild(el); setTimeout(()=>el.remove(),2200); playBeep(880, 0.5); playBeep(660, 0.5); }
+function celebrate(){ const el=document.createElement("div"); el.className="celebrate"; el.textContent="🗣️🇬🇧 7-STEPS COMPLETE! AUTO-HIDDEN ✅"; document.body.appendChild(el); setTimeout(()=>el.remove(),2200); }
 function phaseTitle(d){
   const titles = ["Own Your 4AM","Destroy Laziness","Your Why in English","Vision Board","Routine Master","Discipline Cost","Week1 Champion",
     "Rise Early","Beat Procrastination","Body & Soul","Node.js Deep Dive","Prayer & Focus","Kill Distractions","Week2 Strong",
