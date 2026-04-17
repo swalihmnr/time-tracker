@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="41 Days">
 <meta name="theme-color" content="#080810">
-<title>41-Day Transformation | 4AM • Prayer • Lunch • English + Backend</title>
+<title>41-Day Transformation | 4AM • English System • Backend</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -35,6 +35,9 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 .tb-stats{display:flex;gap:16px;flex-wrap:wrap}
 .tb-stat{font-size:12px;color:var(--m);font-weight:300}
 .tb-stat strong{color:var(--txt);font-weight:500}
+.stats-row{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:0.5px solid var(--bd);gap:12px}
+.time-stat{background:var(--s2);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:500}
+.time-stat span{color:var(--gold);font-weight:700}
 
 .phases{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
 .phase-pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:99px;font-family:'Syne',sans-serif;border:0.5px solid transparent}
@@ -109,19 +112,51 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 @keyframes fadeOut{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-60%) scale(1.3)}}
 .just-done .hcheck{animation:pop 0.3s ease}
 @keyframes pop{0%{transform:scale(0.7)}100%{transform:scale(1)}}
+
+/* English subsystem styles - HIDABLE & AUTO-HIDE ON COMPLETE */
+.english-subsystem{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1);margin-left:32px;padding-left:12px;border-left:2px solid var(--gold);background:rgba(245,200,66,0.03);border-radius:0 8px 8px 0;}
+.english-subsystem.expanded{max-height:600px;margin-bottom:12px;margin-top:8px;padding-bottom:8px;}
+.english-subsystem.completed-hidden{max-height:0 !important;margin:0 !important;padding:0 !important;border-left-color:transparent;}
+.subhabit{display:flex;align-items:center;gap:10px;padding:8px 10px;margin:4px 0;background:rgba(0,0,0,0.2);border-radius:8px;cursor:pointer;transition:all 0.1s}
+.subhabit:active{background:rgba(255,255,255,0.05)}
+.subhabit.done{opacity:0.5}
+.subhabit .shcheck{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--sub);flex-shrink:0;position:relative}
+.subhabit.done .shcheck{background:var(--green);border-color:var(--green)}
+.subhabit.done .shcheck::after{content:'';position:absolute;left:5px;top:2px;width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg);opacity:1}
+.subhabit .shinfo{flex:1}
+.subhabit .shlabel{font-size:12px;font-weight:500;color:var(--txt)}
+.subhabit .shtime{font-size:9px;color:var(--gold);margin-left:6px}
+.subhabit .shsub{font-size:9px;color:var(--m);margin-top:2px}
+.week-rotation{background:rgba(255,255,255,0.03);border-radius:12px;padding:8px 12px;margin:4px 0 4px 32px;font-size:11px;color:var(--gold);display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between}
+.week-day{background:rgba(245,200,66,0.15);padding:3px 8px;border-radius:20px;font-weight:600}
+.comm-topic{background:rgba(77,158,255,0.2);padding:3px 10px;border-radius:20px;color:var(--blue);font-size:10px}
+.complete-badge{background:var(--green);color:var(--bg);padding:2px 8px;border-radius:20px;font-size:9px;margin-left:8px;font-weight:700}
+
+/* Summary section at bottom of habits */
+.summary-section{background:linear-gradient(135deg,rgba(34,216,122,0.08),rgba(77,158,255,0.05));border:0.5px solid rgba(34,216,122,0.2);border-radius:var(--r);padding:14px 16px;margin-top:16px;margin-bottom:8px}
+.summary-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px dashed rgba(255,255,255,0.1)}
+.summary-row:last-child{border-bottom:none}
+.summary-label{font-size:13px;font-weight:500;color:var(--txt)}
+.summary-value{font-size:16px;font-weight:800;color:var(--green)}
+.summary-value.comm{color:var(--blue)}
 </style>
 </head>
 <body>
 <div class="grid-view" id="gridView">
   <div class="top-banner">
-    <div class="tb-tag">⚡ 4:00 AM WAKE • PRAYER • LUNCH 1–2PM • HUB TRAVEL</div>
+    <div class="tb-tag">⚡ 4:00 AM • 2H ENGLISH SYSTEM • BACKEND</div>
     <div class="tb-title">41-Day Transformation</div>
-    <div class="tb-sub">Wake 4:00 AM • Fajr/Tahajjud • 1:00–2:00 PM lunch • Maghrib/Isha • Sleep 9:30 PM</div>
+    <div class="tb-sub">Wake 4:00 AM • 2-Hour English Immersion (7 steps) • Fajr • Hub • Code • Sleep 9:30 PM</div>
     <div class="tb-bar-wrap"><div class="tb-bar" id="overallBar" style="width:0%"></div></div>
-    <div class="tb-stats"><div class="tb-stat">Days done: <strong id="statDays">0</strong></div><div class="tb-stat">Tasks done: <strong id="statTasks">0</strong></div><div class="tb-stat">Overall: <strong id="statPct">0%</strong></div></div>
+    <div class="tb-stats">
+      <div class="tb-stat">Days done: <strong id="statDays">0</strong></div>
+      <div class="tb-stat">Tasks done: <strong id="statTasks">0</strong></div>
+      <div class="tb-stat">Overall: <strong id="statPct">0%</strong></div>
+    </div>
   </div>
   <div class="phases" id="phasePills"></div>
-  <div class="grid-label">📅 tap any day → full 4AM routine (prayer & lunch included)</div>
+  <div class="grid-label">📅 tap day → full 4AM routine + 2-Hour English System</div>
   <div class="days-grid" id="daysGrid"></div>
 </div>
 
@@ -136,13 +171,13 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
         <div class="schedule-title">⏱️ YOUR EXACT DAY: 4:00 AM → 9:30 PM</div>
         <div class="toggle-icon" id="toggleIcon">▲</div>
       </div>
-      <div class="schedule-content" id="scheduleContent">
-        <div class="schedule-grid" id="scheduleGrid"></div>
-      </div>
+      <div class="schedule-content" id="scheduleContent"><div class="schedule-grid" id="scheduleGrid"></div></div>
     </div>
-    <div class="day-prog"><div class="dp-ring"><svg viewBox="0 0 44 44" width="44" height="44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fg" id="dRingFg" cx="22" cy="22" r="18" stroke-dasharray="113" stroke-dashoffset="113"/></svg><div class="dp-pct" id="dRingPct">0%</div></div><div class="dp-info"><div class="dp-label" id="dProgLabel">0 of 15 habits done</div><div class="dp-sub" id="dProgSub">Track each habit — 4AM discipline with prayer & lunch</div></div></div>
-    <div class="habits-title">✅ DAILY HABITS (track your progress)</div>
+    <div class="day-prog"><div class="dp-ring"><svg viewBox="0 0 44 44" width="44" height="44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fg" id="dRingFg" cx="22" cy="22" r="18" stroke-dasharray="113" stroke-dashoffset="113"/></svg><div class="dp-pct" id="dRingPct">0%</div></div><div class="dp-info"><div class="dp-label" id="dProgLabel">0 of 22 habits done</div><div class="dp-sub" id="dProgSub">Main habits + 7-step English system</div></div></div>
+    <div class="habits-title">✅ MAIN HABITS (track your progress)</div>
     <div id="dHabits"></div>
+    <!-- Summary section will be injected here -->
+    <div id="summarySection"></div>
   </div>
 </div>
 
@@ -150,40 +185,59 @@ body{background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,
 const DAILY_SCHEDULE = [
   { time: "4:00 – 4:15 AM", emoji: "🌅", task: "Wake, freshen up, wudu" },
   { time: "4:15 – 5:00 AM", emoji: "🕌", task: "Tahajjud + Fajr + Quran (with translation) — PRAYER" },
-  { time: "5:00 – 7:00 AM", emoji: "🧠", task: "DEEP WORK — DSA + Backend (Node.js)" },
+  { time: "5:00 – 7:00 AM", emoji: "🧠", task: "DEEP WORK — DSA + Backend (Node.js) [TECH: 2h]" },
   { time: "7:00 – 7:40 AM", emoji: "💪", task: "Exercise — Pushups, Squats, Plank" },
-  { time: "7:40 – 8:15 AM", emoji: "❄️", task: "COLD BATH + get ready (mental toughness)" },
-  { time: "8:15 – 9:00 AM", emoji: "🚶", task: "Travel to hub (45 minutes)" },
-  { time: "9:00 – 11:00 AM", emoji: "🚀", task: "DEEP WORK — Build project (API, DB, auth)" },
-  { time: "11:00 – 1:00 PM", emoji: "⚡", task: "Continue coding + fix bugs" },
-  { time: "1:00 – 2:00 PM", emoji: "🍛", task: "LUNCH + short rest / dhikr (1 hour break)" },
-  { time: "2:00 – 4:00 PM", emoji: "🇬🇧", task: "ENGLISH IMMERSION — grammar, vocab, speaking, write log" },
-  { time: "4:00 – 5:30 PM", emoji: "🪶", task: "Light work — debug, code review, English notes" },
-  { time: "5:30 – 6:30 PM", emoji: "🌇", task: "Break, walk, prepare for evening" },
-  { time: "6:30 – 7:30 PM", emoji: "🕌", task: "MAGHRIB + ISHA prayer + relax, reflect — PRAYER" },
-  { time: "7:30 – 8:30 PM", emoji: "🗣️", task: "English speaking practice (shadowing) + backend revision" },
-  { time: "8:30 – 9:00 PM", emoji: "📖", task: "READING (10-15 pages — English fluency)" },
-  { time: "9:00 – 9:15 PM", emoji: "📝", task: "Plan tomorrow, wind down" },
+  { time: "7:40 – 8:15 AM", emoji: "❄️", task: "COLD BATH + get ready" },
+  { time: "8:15 – 9:00 AM", emoji: "🚶", task: "Travel to hub (45 min)" },
+  { time: "9:00 – 11:00 AM", emoji: "🚀", task: "DEEP WORK — Build project [TECH: 2h]" },
+  { time: "11:00 – 1:00 PM", emoji: "⚡", task: "Continue coding + fix bugs [TECH: 2h]" },
+  { time: "1:00 – 2:00 PM", emoji: "🍛", task: "LUNCH + short rest" },
+  { time: "2:00 – 4:00 PM", emoji: "🇬🇧", task: "2-HOUR ENGLISH SYSTEM (7 steps below)" },
+  { time: "4:00 – 5:30 PM", emoji: "🪶", task: "Light work — debug, review, notes [TECH: 1.5h]" },
+  { time: "5:30 – 6:30 PM", emoji: "🌇", task: "Break, walk" },
+  { time: "6:30 – 7:30 PM", emoji: "🕌", task: "MAGHRIB + ISHA prayer" },
+  { time: "7:30 – 8:30 PM", emoji: "🗣️", task: "English speaking + backend revision [TECH: 0.5h]" },
+  { time: "8:30 – 9:00 PM", emoji: "📖", task: "READING (10-15 pages)" },
+  { time: "9:00 – 9:15 PM", emoji: "📝", task: "Plan tomorrow" },
   { time: "9:15 – 9:30 PM", emoji: "🛁", task: "Prepare for sleep" },
-  { time: "9:30 PM", emoji: "💤", task: "SLEEP (strict — 7.5 hours recovery)" }
+  { time: "9:30 PM", emoji: "💤", task: "SLEEP (strict)" }
+];
+
+const WEEKLY_COMM_TOPICS = {
+  0: { day: "Monday", topic: "💼 Job Interview Skills", desc: "Practice answering: Tell me about yourself, Why backend?" },
+  1: { day: "Tuesday", topic: "📘 Teaching: Node.js or APIs", desc: "Explain a backend concept as if teaching a beginner" },
+  2: { day: "Wednesday", topic: "⚖️ Debate: Is AI good or bad?", desc: "Argue both sides for 5 min each" },
+  3: { day: "Thursday", topic: "📖 Storytelling: One life story", desc: "Share a personal experience with clear structure" },
+  4: { day: "Friday", topic: "🎤 Presentation: My startup vision", desc: "Present your business idea confidently" },
+  5: { day: "Saturday", topic: "⚙️ Tech Explanation: DB indexing / Auth / Caching", desc: "Explain one concept in simple terms" },
+  6: { day: "Sunday", topic: "📊 Review Speech: Weekly progress", desc: "Summarize what you learned this week" }
+};
+
+const ENGLISH_STEPS_BASE = [
+  { id: "eng_warmup", label: "🗣️ Speaking Warmup (20 min)", desc: "Speak continuously: my day, goals, discipline", timeRange: "2:00-2:20 PM" },
+  { id: "eng_listen", label: "🎧 Listening + Shadowing (20 min)", desc: "TED/Interview, repeat sentences aloud", timeRange: "2:20-2:40 PM" },
+  { id: "eng_read",   label: "📖 Reading (20 min)", desc: "Story/self-help/tech article — main meaning", timeRange: "2:40-3:00 PM" },
+  { id: "eng_write",  label: "✍️ Writing (20 min)", desc: "Journal/summary/opinion/goals", timeRange: "3:00-3:20 PM" },
+  { id: "eng_record", label: "🎙️ Voice Recording (10 min)", desc: "Record 2-5 min speaking", timeRange: "3:20-3:30 PM" },
+  { id: "eng_correct", label: "🔍 Self Correction (10 min)", desc: "Grammar, pauses, confidence check", timeRange: "3:30-3:40 PM" }
 ];
 
 const HABITS = [
-  { id: "wake_wudu",       icon: "🌅", label: "Wake 4:00 AM + wudu",            sub: "Start before sunrise", timeRange: "4:00-4:15 AM" },
-  { id: "tahajjud_fajr",   icon: "🕌", label: "Tahajjud + Fajr + Quran",        sub: "PRAYER — spiritual anchor", timeRange: "4:15-5:00 AM" },
-  { id: "deepwork_dsa",    icon: "🧠", label: "Deep Work: DSA + Backend",       sub: "2h focus · recursion/Node", timeRange: "5:00-7:00 AM" },
-  { id: "exercise",        icon: "💪", label: "Exercise (pushups/squats/plank)", sub: "Physical discipline", timeRange: "7:00-7:40 AM" },
-  { id: "cold_bath",       icon: "❄️", label: "COLD BATH",                      sub: "Mental toughness", timeRange: "7:40-8:15 AM" },
-  { id: "travel_hub",      icon: "🚶", label: "Travel to hub (45 min)",         sub: "Commitment to space", timeRange: "8:15-9:00 AM" },
-  { id: "deepwork_project", icon: "🚀", label: "Build project (API/DB/auth)",   sub: "Backend craft", timeRange: "9:00-11:00 AM" },
-  { id: "coding_fix",      icon: "⚡", label: "Continue coding + fix bugs",     sub: "Problem solving", timeRange: "11:00-1:00 PM" },
-  { id: "lunch_rest",      icon: "🍛", label: "LUNCH + rest / dhikr (1-2PM)",   sub: "Fuel & reset", timeRange: "1:00-2:00 PM" },
-  { id: "english_immersion",icon: "🇬🇧", label: "ENGLISH IMMERSION (2h)",        sub: "grammar, vocab, writing", timeRange: "2:00-4:00 PM" },
-  { id: "lightwork_notes", icon: "🪶", label: "Debug + code review + English notes", sub: "Polish skills", timeRange: "4:00-5:30 PM" },
-  { id: "maghrib_isha",    icon: "🕌", label: "MAGHRIB + ISHA prayer + reflection", sub: "PRAYER — evening worship", timeRange: "6:30-7:30 PM" },
-  { id: "english_speak",   icon: "🗣️", label: "English speaking (shadowing)",   sub: "Fluency training", timeRange: "7:30-8:30 PM" },
-  { id: "reading",         icon: "📖", label: "READING (10-15 pages)",          sub: "English fluency + knowledge", timeRange: "8:30-9:00 PM" },
-  { id: "sleep_by_9_30",   icon: "💤", label: "Sleep by 9:30 PM",               sub: "7.5h recovery · strict", timeRange: "9:30 PM" }
+  { id: "wake_wudu",       icon: "🌅", label: "Wake 4:00 AM + wudu",            sub: "Start before sunrise", timeRange: "4:00-4:15 AM", tech: false },
+  { id: "tahajjud_fajr",   icon: "🕌", label: "Tahajjud + Fajr + Quran",        sub: "PRAYER — spiritual anchor", timeRange: "4:15-5:00 AM", tech: false },
+  { id: "deepwork_dsa",    icon: "🧠", label: "Deep Work: DSA + Backend",       sub: "2h focus", timeRange: "5:00-7:00 AM", tech: true, hours: 2 },
+  { id: "exercise",        icon: "💪", label: "Exercise (pushups/squats/plank)", sub: "Physical discipline", timeRange: "7:00-7:40 AM", tech: false },
+  { id: "cold_bath",       icon: "❄️", label: "COLD BATH",                      sub: "Mental toughness", timeRange: "7:40-8:15 AM", tech: false },
+  { id: "travel_hub",      icon: "🚶", label: "Travel to hub (45 min)",         sub: "Commitment to space", timeRange: "8:15-9:00 AM", tech: false },
+  { id: "deepwork_project", icon: "🚀", label: "Build project (API/DB/auth)",   sub: "Backend craft", timeRange: "9:00-11:00 AM", tech: true, hours: 2 },
+  { id: "coding_fix",      icon: "⚡", label: "Continue coding + fix bugs",     sub: "Problem solving", timeRange: "11:00-1:00 PM", tech: true, hours: 2 },
+  { id: "lunch_rest",      icon: "🍛", label: "LUNCH + rest / dhikr",           sub: "Fuel & reset", timeRange: "1:00-2:00 PM", tech: false },
+  { id: "english_immersion",icon: "🇬🇧", label: "2-HOUR ENGLISH SYSTEM (7 steps)", sub: "Speaking, listening, reading, writing, recording, correction, communication", timeRange: "2:00-4:00 PM", hasSub: true, tech: false },
+  { id: "lightwork_notes", icon: "🪶", label: "Debug + code review + notes",    sub: "Polish skills", timeRange: "4:00-5:30 PM", tech: true, hours: 1.5 },
+  { id: "maghrib_isha",    icon: "🕌", label: "MAGHRIB + ISHA prayer",          sub: "Evening worship", timeRange: "6:30-7:30 PM", tech: false },
+  { id: "english_speak",   icon: "🗣️", label: "English speaking + backend revision", sub: "Fluency training", timeRange: "7:30-8:30 PM", tech: true, hours: 0.5 },
+  { id: "reading",         icon: "📖", label: "READING (10-15 pages)",          sub: "English fluency", timeRange: "8:30-9:00 PM", tech: false },
+  { id: "sleep_by_9_30",   icon: "💤", label: "Sleep by 9:30 PM",               sub: "7.5h recovery", timeRange: "9:30 PM", tech: false }
 ];
 
 const PHASES = [
@@ -195,27 +249,49 @@ const PHASES = [
   { num:6, days:[36,41], name:"Rebirth",      color:"var(--amber)",  bg:"var(--amberd)",  emoji:"🔥" },
 ];
 
-const VIDEOS = Array(41).fill().map((_,i)=> `Day ${i+1} reflection — ${i<7?"Awakening":i<14?"Discipline":i<21?"Skill":i<28?"Mind":i<35?"Vision":"Rebirth"} step`);
-const VIDEO_HINTS = Array(41).fill("Record 2-3 minutes speaking in English about your daily progress.");
+const VIDEOS = Array(41).fill().map((_,i)=> `Day ${i+1} reflection — English progress`);
+const VIDEO_HINTS = Array(41).fill("Record 2-3 min speaking about your 7-step English system progress.");
 const SPECIALS = {
-  1:{icon:"🌱",text:"Day 1 — 4:00 AM wake achieved."},
-  7:{icon:"🏆",text:"Week 1 complete!"},
-  14:{icon:"⚔️",text:"Two weeks strong!"},
-  21:{icon:"🧠",text:"Halfway there!"},
-  30:{icon:"👑",text:"30 days — keep going!"},
-  40:{icon:"🌟",text:"Day 40 — almost there!"},
-  41:{icon:"🔥",text:"YOU DID IT! Complete transformation."},
+  1:{icon:"🌱",text:"Day 1 — Start 2-Hour English System. Speak even with mistakes."},
+  7:{icon:"🏆",text:"Week 1 — 7 days of English immersion!"},
+  14:{icon:"⚔️",text:"Two weeks — your fluency is improving."},
+  21:{icon:"🧠",text:"Halfway — record yourself without hesitation."},
+  30:{icon:"👑",text:"30 days — English thinking faster!"},
+  40:{icon:"🌟",text:"Day 40 — almost fluent!"},
+  41:{icon:"🔥",text:"41 DAYS — You are a STANDARD in English!"},
 };
 
-const STORE_KEY = "transform41_v9_persist";
+const STORE_KEY = "transform41_v13_summary";
 const OVERLAY_STATE_KEY = "transform41_current_day";
 let data = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
 function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
-function dayData(d){ if(!data[d]) data[d] = { habits:{} }; return data[d]; }
+function dayData(d){ if(!data[d]) data[d] = { habits: {}, englishSteps: {} }; return data[d]; }
 function habitsDone(d){ const h = dayData(d).habits; return HABITS.filter(x => h[x.id]).length; }
+function englishStepsDone(d){ const steps = dayData(d).englishSteps || {}; return Object.keys(steps).filter(k => steps[k] === true).length; }
 function getPhase(d){ return PHASES.find(p => d >= p.days[0] && d <= p.days[1]) || PHASES[0]; }
 function getStartDate(){ let s = localStorage.getItem("t41_start"); if(!s){ s = new Date().toDateString(); localStorage.setItem("t41_start", s); } return new Date(s); }
 function currentDay(){ const start = getStartDate(); const now = new Date(); const diff = Math.floor((now - start) / 86400000) + 1; return Math.min(Math.max(diff, 1), 41); }
+
+function calculateTechAndCommHours(d){
+  let techHours = 0;
+  HABITS.forEach(h => { if(h.tech && dayData(d).habits[h.id]) techHours += (h.hours || 0); });
+  const commStepDone = dayData(d).englishSteps?.eng_communication || false;
+  const commHours = commStepDone ? 0.33 : 0;
+  return { techHours: Math.round(techHours*10)/10, commHours };
+}
+
+function getEnglishStepsWithDynamicComm(dayNum){
+  const weekIdx = (dayNum - 1) % 7;
+  const topic = WEEKLY_COMM_TOPICS[weekIdx];
+  const dynamicStep = {
+    id: "eng_communication",
+    label: `💬 Real Communication (20 min) — ${topic.topic}`,
+    desc: topic.desc,
+    timeRange: "3:40-4:00 PM",
+    topic: topic.topic
+  };
+  return [...ENGLISH_STEPS_BASE, dynamicStep];
+}
 
 let scheduleCollapsed = false;
 function initScheduleToggle(){
@@ -223,27 +299,16 @@ function initScheduleToggle(){
   const contentDiv = document.getElementById("scheduleContent");
   const iconSpan = document.getElementById("toggleIcon");
   if(!toggleBtn || !contentDiv) return;
-  const savedCollapse = localStorage.getItem("schedule_collapsed");
-  if(savedCollapse === "true") {
-    contentDiv.classList.add("collapsed");
-    iconSpan.innerHTML = "▼";
-    scheduleCollapsed = true;
-  } else {
-    contentDiv.classList.remove("collapsed");
-    iconSpan.innerHTML = "▲";
-    scheduleCollapsed = false;
-  }
+  const saved = localStorage.getItem("schedule_collapsed");
+  if(saved === "true") { contentDiv.classList.add("collapsed"); iconSpan.innerHTML = "▼"; scheduleCollapsed = true; }
+  else { contentDiv.classList.remove("collapsed"); iconSpan.innerHTML = "▲"; scheduleCollapsed = false; }
   toggleBtn.onclick = (e) => {
     e.stopPropagation();
     if(scheduleCollapsed){
-      contentDiv.classList.remove("collapsed");
-      iconSpan.innerHTML = "▲";
-      scheduleCollapsed = false;
+      contentDiv.classList.remove("collapsed"); iconSpan.innerHTML = "▲"; scheduleCollapsed = false;
       localStorage.setItem("schedule_collapsed", "false");
     } else {
-      contentDiv.classList.add("collapsed");
-      iconSpan.innerHTML = "▼";
-      scheduleCollapsed = true;
+      contentDiv.classList.add("collapsed"); iconSpan.innerHTML = "▼"; scheduleCollapsed = true;
       localStorage.setItem("schedule_collapsed", "true");
     }
   };
@@ -251,9 +316,11 @@ function initScheduleToggle(){
 
 function buildGrid(){
   const today = currentDay();
-  let totalDone = 0;
-  for(let d=1; d<=today; d++) totalDone += habitsDone(d);
-  const pct = today>0 ? Math.round((totalDone/(today*HABITS.length))*100) : 0;
+  let totalMain = 0, totalSub = 0;
+  for(let d=1; d<=today; d++){ totalMain += habitsDone(d); totalSub += englishStepsDone(d); }
+  const totalPossible = today * (HABITS.length + 7);
+  const totalDone = totalMain + totalSub;
+  const pct = totalPossible > 0 ? Math.round((totalDone/totalPossible)*100) : 0;
   document.getElementById("overallBar").style.width = ((today-1)/41*100)+"%";
   document.getElementById("statDays").textContent = (today-1)+" / 41";
   document.getElementById("statTasks").textContent = totalDone;
@@ -273,119 +340,135 @@ function buildGrid(){
 }
 
 let activeDay = null;
-
-// SAVE current day to localStorage
-function saveCurrentDay(day){
-  if(day) localStorage.setItem(OVERLAY_STATE_KEY, day);
-  else localStorage.removeItem(OVERLAY_STATE_KEY);
-}
-
-function openDay(d){
-  if(d > currentDay()) return;
-  activeDay = d;
-  renderDay(d);
-  document.getElementById("dayOverlay").classList.add("open");
-  document.body.style.overflow = "hidden";
-  saveCurrentDay(d);
-  history.pushState({ overlayOpen: true, day: d }, "", "#day-" + d);
-  window.scrollTo(0,0);
-}
-
-function closeDay(shouldPopHistory = true){
-  document.getElementById("dayOverlay").classList.remove("open");
-  document.body.style.overflow = "";
-  saveCurrentDay(null);
-  if(shouldPopHistory && history.state && history.state.overlayOpen){
-    // handled by popstate
-  }
-  setTimeout(() => { buildGrid(); activeDay = null; }, 350);
-}
-
-// RESTORE overlay if user left and came back
-function restoreOverlayIfNeeded(){
-  const savedDay = localStorage.getItem(OVERLAY_STATE_KEY);
-  if(savedDay && parseInt(savedDay) <= currentDay()){
-    const day = parseInt(savedDay);
-    activeDay = day;
-    renderDay(day);
-    document.getElementById("dayOverlay").classList.add("open");
-    document.body.style.overflow = "hidden";
-    history.pushState({ overlayOpen: true, day: day }, "", "#day-" + day);
-  }
-}
-
-window.addEventListener("popstate", function(event) {
-  const overlay = document.getElementById("dayOverlay");
-  if(overlay.classList.contains("open")){
-    closeDay(false);
-    saveCurrentDay(null);
-    if(window.location.hash) history.pushState(null, "", window.location.pathname);
-  }
-});
-
-// Handle visibility change (user comes back to tab)
-document.addEventListener("visibilitychange", function() {
-  if(!document.hidden){
-    const savedDay = localStorage.getItem(OVERLAY_STATE_KEY);
-    const overlay = document.getElementById("dayOverlay");
-    if(savedDay && !overlay.classList.contains("open")){
-      const day = parseInt(savedDay);
-      if(day <= currentDay()){
-        activeDay = day;
-        renderDay(day);
-        overlay.classList.add("open");
-        document.body.style.overflow = "hidden";
-      }
-    }
-  }
-});
-
-document.getElementById("closeOverlayBtn").addEventListener("click", function(){
-  closeDay(true);
-  saveCurrentDay(null);
-  if(history.state && history.state.overlayOpen){
-    history.back();
-  } else {
-    history.pushState(null, "", window.location.pathname);
-  }
-});
+function saveCurrentDay(day){ if(day) localStorage.setItem(OVERLAY_STATE_KEY, day); else localStorage.removeItem(OVERLAY_STATE_KEY); }
+function openDay(d){ if(d > currentDay()) return; activeDay = d; renderDay(d); document.getElementById("dayOverlay").classList.add("open"); document.body.style.overflow = "hidden"; saveCurrentDay(d); history.pushState({ overlayOpen: true, day: d }, "", "#day-"+d); window.scrollTo(0,0); }
+function closeDay(shouldPopHistory = true){ document.getElementById("dayOverlay").classList.remove("open"); document.body.style.overflow = ""; saveCurrentDay(null); setTimeout(() => { buildGrid(); activeDay = null; }, 350); }
+function restoreOverlayIfNeeded(){ const savedDay = localStorage.getItem(OVERLAY_STATE_KEY); if(savedDay && parseInt(savedDay) <= currentDay()){ const day = parseInt(savedDay); activeDay = day; renderDay(day); document.getElementById("dayOverlay").classList.add("open"); document.body.style.overflow = "hidden"; history.pushState({ overlayOpen: true, day: day }, "", "#day-"+day); } }
+window.addEventListener("popstate", () => { if(document.getElementById("dayOverlay").classList.contains("open")){ closeDay(false); saveCurrentDay(null); if(window.location.hash) history.pushState(null, "", window.location.pathname); } });
+document.addEventListener("visibilitychange", () => { if(!document.hidden){ const saved = localStorage.getItem(OVERLAY_STATE_KEY); const overlay = document.getElementById("dayOverlay"); if(saved && !overlay.classList.contains("open")){ const day = parseInt(saved); if(day <= currentDay()){ activeDay = day; renderDay(day); overlay.classList.add("open"); document.body.style.overflow = "hidden"; } } } });
+document.getElementById("closeOverlayBtn").addEventListener("click", () => { closeDay(true); saveCurrentDay(null); if(history.state && history.state.overlayOpen) history.back(); else history.pushState(null, "", window.location.pathname); });
 
 function renderDay(d){
-  const phase = getPhase(d); const hd = dayData(d).habits;
+  const phase = getPhase(d); const hd = dayData(d).habits; const engSteps = dayData(d).englishSteps || {};
+  const dynamicSteps = getEnglishStepsWithDynamicComm(d);
+  const weekIdx = (d-1) % 7;
+  const weekTopic = WEEKLY_COMM_TOPICS[weekIdx];
+  const allStepsCompleted = dynamicSteps.every(step => engSteps[step.id] === true);
+  const { techHours, commHours } = calculateTechAndCommHours(d);
+  
   document.getElementById("dNum").textContent = `Day ${d} · ${phase.emoji} ${phase.name} Phase`;
   document.getElementById("dTitle").textContent = phaseTitle(d);
-  document.getElementById("dPhaseBadge").innerHTML = `<div class="phase-badge" style="background:${phase.bg};color:${phase.color}">${phase.emoji} Phase ${phase.num} — ${phase.name}</div>`;
+  document.getElementById("dPhaseBadge").innerHTML = `<div class="phase-badge" style="background:${phase.bg};color:${phase.color}">${phase.emoji} Phase ${phase.num} — ${phase.name} | 2H English System</div>`;
   document.getElementById("dSpecial").innerHTML = SPECIALS[d] ? `<div class="special-banner"><div class="sb-icon">${SPECIALS[d].icon}</div><div class="sb-text">${SPECIALS[d].text}</div></div>` : "";
-  document.getElementById("dVideoCard").innerHTML = `<div class="video-card"><div class="vc-label"><div class="rec-dot"></div> DAILY ENGLISH VIDEO</div><div class="vc-topic">"${VIDEOS[d-1]}"</div><div class="vc-hint">💡 ${VIDEO_HINTS[d-1]}</div></div>`;
+  document.getElementById("dVideoCard").innerHTML = `<div class="video-card"><div class="vc-label"><div class="rec-dot"></div> DAILY ENGLISH VIDEO</div><div class="vc-topic">"Day ${d} — My 7-step English progress"</div><div class="vc-hint">💡 Record your voice after the 7 steps. Show your improvement.</div></div>`;
   const scheduleGrid = document.getElementById("scheduleGrid");
   if(scheduleGrid) scheduleGrid.innerHTML = DAILY_SCHEDULE.map(s => `<div class="sched-item"><span class="sched-time">${s.time}</span><span class="sched-emoji">${s.emoji}</span><span class="sched-desc">${s.task}</span></div>`).join('');
   initScheduleToggle();
-  const doneCount = habitsDone(d); const pct = Math.round(doneCount/HABITS.length*100); const circumference = 113;
+  
+  const mainDone = habitsDone(d); const subDone = englishStepsDone(d); const totalHabits = HABITS.length + 7;
+  const pct = Math.round(((mainDone + subDone)/totalHabits)*100);
+  const circumference = 113;
   document.getElementById("dRingFg").style.strokeDashoffset = circumference - (circumference * pct / 100);
   document.getElementById("dRingPct").textContent = pct+"%";
-  document.getElementById("dProgLabel").textContent = doneCount+" of "+HABITS.length+" habits done";
-  document.getElementById("dProgSub").textContent = doneCount===HABITS.length ? "PERFECT DAY! ✅" : (HABITS.length-doneCount)+" left";
+  document.getElementById("dProgLabel").textContent = (mainDone+subDone)+" of "+totalHabits+" total (main + English steps)";
+  document.getElementById("dProgSub").textContent = (mainDone+subDone) === totalHabits ? "PERFECT DAY! English + Code mastered ✅" : (totalHabits-(mainDone+subDone))+" left";
+  
   const habCt = document.getElementById("dHabits"); habCt.innerHTML = "";
   HABITS.forEach(h=>{
     const isDone = !!hd[h.id];
-    const el = document.createElement("div"); el.className = "habit"+(isDone?" done":""); el.onclick = () => toggleHabit(d, h.id, el);
-    el.innerHTML = `<div class="hcheck"></div><div class="hicon">${h.icon}</div><div class="hlabel-group"><div class="hlabel">${h.label} <span class="htime">⏰ ${h.timeRange}</span></div><div class="hsub">${h.sub}</div></div>`;
-    habCt.appendChild(el);
+    const wrapper = document.createElement("div");
+    const el = document.createElement("div"); el.className = "habit"+(isDone?" done":"");
+    el.onclick = (e) => { if(e.target.closest('.english-subsystem')) return; if(h.id === "english_immersion"){ toggleEnglishSubmenu(wrapper); } else { toggleHabit(d, h.id, el); } };
+    el.innerHTML = `<div class="hcheck"></div><div class="hicon">${h.icon}</div><div class="hlabel-group"><div class="hlabel">${h.label} <span class="htime">⏰ ${h.timeRange}</span>${allStepsCompleted && h.id==="english_immersion" ? '<span class="complete-badge">✓ COMPLETED</span>' : ''}</div><div class="hsub">${h.sub}</div></div>`;
+    wrapper.appendChild(el);
+    if(h.id === "english_immersion"){
+      const subDiv = document.createElement("div"); subDiv.className = "english-subsystem" + (allStepsCompleted ? " completed-hidden" : "");
+      if(!allStepsCompleted && hd.english_immersion) subDiv.classList.add("expanded");
+      else if(!allStepsCompleted && !hd.english_immersion) subDiv.classList.add("expanded");
+      const weekBadge = document.createElement("div"); weekBadge.className = "week-rotation"; 
+      weekBadge.innerHTML = `<span>📆 ${weekTopic.day}'s Communication:</span><span class="week-day comm-topic">🎯 ${weekTopic.topic}</span>`;
+      subDiv.appendChild(weekBadge);
+      dynamicSteps.forEach(step=>{
+        const stepDone = !!engSteps[step.id];
+        const stepEl = document.createElement("div"); stepEl.className = "subhabit"+(stepDone?" done":"");
+        stepEl.onclick = (e) => { e.stopPropagation(); toggleEnglishStep(d, step.id, stepEl, dynamicSteps, wrapper); };
+        stepEl.innerHTML = `<div class="shcheck"></div><div class="shinfo"><div class="shlabel">${step.label} <span class="shtime">${step.timeRange}</span></div><div class="shsub">${step.desc}</div></div>`;
+        subDiv.appendChild(stepEl);
+      });
+      wrapper.appendChild(subDiv);
+    }
+    habCt.appendChild(wrapper);
   });
+  
+  // Add Summary Section at the bottom
+  const summaryDiv = document.getElementById("summarySection");
+  summaryDiv.innerHTML = `
+    <div class="summary-section">
+      <div class="summary-title">📊 TODAY'S TIME INVESTMENT</div>
+      <div class="summary-row">
+        <span class="summary-label">💻 Tech / Coding Hours:</span>
+        <span class="summary-value">${techHours} hrs</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">🗣️ English Communication (Real Practice):</span>
+        <span class="summary-value comm">${commHours > 0 ? commHours + " hr" : "0 hrs"} ${commHours > 0 ? '(✓ Completed)' : '(Not yet)'}</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">🇬🇧 Total English System Time:</span>
+        <span class="summary-value">2 hrs (7 steps)</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">⏰ Total Productive Hours:</span>
+        <span class="summary-value">${(techHours + (commHours > 0 ? 0.33 : 0) + 2).toFixed(1)} hrs</span>
+      </div>
+    </div>
+  `;
 }
 
-function toggleHabit(d, hid, el){
-  const hd = dayData(d).habits; hd[hid] = !hd[hid]; save();
-  if(hd[hid]){ el.classList.add("done","just-done"); setTimeout(()=>el.classList.remove("just-done"),400); } else { el.classList.remove("done"); }
-  const done = habitsDone(d); const pct = Math.round(done/HABITS.length*100); const circumference = 113;
+function toggleEnglishSubmenu(wrapper){ const sub = wrapper.querySelector('.english-subsystem'); if(sub && !sub.classList.contains('completed-hidden')) sub.classList.toggle("expanded"); }
+function toggleHabit(d, hid, el){ if(hid === "english_immersion") return; const hd = dayData(d).habits; hd[hid] = !hd[hid]; save(); if(hd[hid]){ el.classList.add("done","just-done"); setTimeout(()=>el.classList.remove("just-done"),400); } else { el.classList.remove("done"); } updateProgress(d); renderDay(d); buildGrid(); }
+function toggleEnglishStep(d, sid, el, dynamicSteps, wrapper){
+  const steps = dayData(d).englishSteps || {};
+  steps[sid] = !steps[sid];
+  dayData(d).englishSteps = steps;
+  save();
+  if(steps[sid]){ el.classList.add("done"); } else { el.classList.remove("done"); }
+  const allStepsDone = dynamicSteps.every(s => steps[s.id] === true);
+  const hd = dayData(d).habits;
+  const mainHabitEl = wrapper.querySelector('.habit');
+  const subDiv = wrapper.querySelector('.english-subsystem');
+  if(allStepsDone && !hd.english_immersion){
+    hd.english_immersion = true;
+    save();
+    if(mainHabitEl) mainHabitEl.classList.add("done");
+    if(subDiv) { subDiv.classList.add("completed-hidden"); subDiv.classList.remove("expanded"); }
+    const badgeSpan = mainHabitEl?.querySelector('.complete-badge');
+    if(!badgeSpan && mainHabitEl){
+      const labelGroup = mainHabitEl.querySelector('.hlabel-group .hlabel');
+      if(labelGroup) labelGroup.innerHTML += '<span class="complete-badge">✓ COMPLETED</span>';
+    }
+  } else if(!allStepsDone && hd.english_immersion){
+    hd.english_immersion = false;
+    save();
+    if(mainHabitEl) mainHabitEl.classList.remove("done");
+    if(subDiv) { subDiv.classList.remove("completed-hidden"); subDiv.classList.add("expanded"); }
+    const badge = mainHabitEl?.querySelector('.complete-badge');
+    if(badge) badge.remove();
+  }
+  updateProgress(d);
+  renderDay(d);
+  buildGrid();
+}
+function updateProgress(d){
+  const mainDone = habitsDone(d); const subDone = englishStepsDone(d); const total = HABITS.length + 7;
+  const pct = Math.round(((mainDone+subDone)/total)*100);
+  const circumference = 113;
   document.getElementById("dRingFg").style.strokeDashoffset = circumference - (circumference * pct / 100);
   document.getElementById("dRingPct").textContent = pct+"%";
-  document.getElementById("dProgLabel").textContent = done+" of "+HABITS.length+" habits done";
-  if(done === HABITS.length) celebrate();
+  document.getElementById("dProgLabel").textContent = (mainDone+subDone)+" of "+total+" total";
+  if((mainDone+subDone) === total) celebrate();
 }
-
-function celebrate(){ const el=document.createElement("div"); el.className="celebrate"; el.textContent="🔥 DAY COMPLETE! 🔥"; document.body.appendChild(el); setTimeout(()=>el.remove(),2200); }
-
+function celebrate(){ const el=document.createElement("div"); el.className="celebrate"; el.textContent="🗣️🇬🇧 7-STEPS COMPLETE! AUTO-HIDDEN ✅"; document.body.appendChild(el); setTimeout(()=>el.remove(),2200); }
 function phaseTitle(d){
   const titles = ["Own Your 4AM","Destroy Laziness","Your Why in English","Vision Board","Routine Master","Discipline Cost","Week1 Champion",
     "Rise Early","Beat Procrastination","Body & Soul","Node.js Deep Dive","Prayer & Focus","Kill Distractions","Week2 Strong",
@@ -393,9 +476,8 @@ function phaseTitle(d){
     "Face Self-Doubt","Quran & Strength","Wealth Mindset","Consistency King","Reading Habit","Embrace Cold","Week4 Mental Shift",
     "Plan Next Year","Day30 Comparison","Dream App Sketch","Network & Connect","Income Goal","Faith over Fear","Week5 Vision",
     "Letter to Day1 Me","Habits That Stay","Biggest Win","Future Letter","40 Lessons","I AM TRANSFORMED"];
-  return titles[d-1] || `Day ${d}`;
+  return titles[d-1] || `Day ${d} — English System`;
 }
-
 buildGrid();
 restoreOverlayIfNeeded();
 </script>
