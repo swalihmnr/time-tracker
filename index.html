@@ -212,7 +212,7 @@ updateISTClock();
 
 // ======================== MAIN APP ========================
 
-// Regular days (Monday-Thursday, Saturday) - Updated with skincare
+// Regular days (Monday-Thursday, Saturday) - Updated with morning & night skincare
 const DAILY_SCHEDULE = [
   { time: "4:00 – 4:15 AM", emoji: "🌅", task: "Wake + Wudu + Freshen up + Water" },
   { time: "4:15 – 5:00 AM", emoji: "🕌", task: "Tahajjud + Fajr + Quran + Dua" },
@@ -223,7 +223,12 @@ const DAILY_SCHEDULE = [
   { time: "8:50 – 9:10 AM", emoji: "🚶", task: "Travel back + Relax" },
   { time: "9:10 – 9:35 AM", emoji: "💪", task: "Exercise — Pushups, Squats, Plank, Pull-ups, Stretching" },
   { time: "9:35 – 9:50 AM", emoji: "❄️", task: "COLD BATH" },
-  { time: "9:50 – 10:10 AM", emoji: "🍳", task: "Breakfast — Healthy food" },
+  { time: "9:50 – 9:55 AM", emoji: "🧴", task: "Morning Skincare — Cleanser (CeraVe Hydrating)" },
+  { time: "9:55 – 9:56 AM", emoji: "⏳", task: "Wait 30 seconds" },
+  { time: "9:56 – 9:57 AM", emoji: "💧", task: "Niacinamide Serum (Minimalist 5%) — 2-3 drops" },
+  { time: "9:57 – 9:58 AM", emoji: "⏳", task: "Wait 1 minute" },
+  { time: "9:58 – 10:05 AM", emoji: "🧴", task: "Moisturizer (CeraVe PM) + Sunscreen SPF 50" },
+  { time: "10:05 – 10:10 AM", emoji: "🍳", task: "Breakfast — Healthy food" },
   { time: "10:10 – 10:55 AM", emoji: "🚶", task: "Travel to hub (45 min) — Podcasts" },
   { time: "11:00 – 1:00 PM", emoji: "🚀", task: "Brototype Practical + Assignments [TECH: 2h]" },
   { time: "1:00 – 2:15 PM", emoji: "💻", task: "Production-Level Backend Project [TECH: 1.25h]" },
@@ -233,7 +238,7 @@ const DAILY_SCHEDULE = [
   { time: "5:30 – 6:30 PM", emoji: "🪶", task: "Code Review + GitHub + Debugging [TECH: 1h]" },
   { time: "6:30 – 7:45 PM", emoji: "🕌", task: "Asr + Maghrib + Isha + Family / Dinner" },
   { time: "7:45 – 8:30 PM", emoji: "🎯", task: "Backend Interview Revision [TECH: 0.75h]" },
-  { time: "8:30 – 8:40 PM", emoji: "🧴", task: "Skincare — Cleanser (CeraVe Hydrating)" },
+  { time: "8:30 – 8:40 PM", emoji: "🧴", task: "Night Skincare — Cleanser (CeraVe Hydrating)" },
   { time: "8:40 – 8:41 PM", emoji: "⏳", task: "Wait 30 seconds" },
   { time: "8:41 – 8:42 PM", emoji: "💧", task: "Niacinamide Serum (Minimalist 5%) — 2-3 drops" },
   { time: "8:42 – 8:43 PM", emoji: "⏳", task: "Wait 1 minute" },
@@ -244,12 +249,13 @@ const DAILY_SCHEDULE = [
   { time: "9:30 PM", emoji: "💤", task: "SLEEP (strict)" }
 ];
 
-// Friday schedule - Updated with skincare
+// Friday schedule - Updated with morning & night skincare
 const FRIDAY_SCHEDULE = [
   { time: "4:15 – 5:00 AM", emoji: "🕌", task: "Tahajjud + Fajr + Quran" },
   { time: "5:00 – 8:00 AM", emoji: "🧠", task: "Complete one full Brototype week's work [TECH: 3h]" },
   { time: "8:00 – 9:00 AM", emoji: "💪", task: "Exercise + Bath + Breakfast" },
-  { time: "9:00 – 12:00 PM", emoji: "💻", task: "Build second backend project [TECH: 3h]" },
+  { time: "9:00 – 9:05 AM", emoji: "🧴", task: "Morning Skincare — Cleanser + Niacinamide + Moisturizer + Sunscreen" },
+  { time: "9:05 – 12:00 PM", emoji: "💻", task: "Build second backend project [TECH: 3h]" },
   { time: "12:00 – 1:00 PM", emoji: "🍛", task: "Lunch + Prayer" },
   { time: "1:00 – 2:30 PM", emoji: "🧩", task: "DSA — 4-5 problems [TECH: 1.5h]" },
   { time: "2:30 – 4:00 PM", emoji: "🎯", task: "Backend interview + System Design [TECH: 1.5h]" },
@@ -257,11 +263,7 @@ const FRIDAY_SCHEDULE = [
   { time: "5:30 – 6:30 PM", emoji: "📝", task: "Resume + GitHub + LinkedIn" },
   { time: "6:30 – 7:45 PM", emoji: "🕌", task: "Asr + Maghrib + Isha + Dinner" },
   { time: "7:45 – 8:30 PM", emoji: "📊", task: "Weekly review & next week's planning" },
-  { time: "8:30 – 8:40 PM", emoji: "🧴", task: "Skincare — Cleanser (CeraVe Hydrating)" },
-  { time: "8:40 – 8:41 PM", emoji: "⏳", task: "Wait 30 seconds" },
-  { time: "8:41 – 8:42 PM", emoji: "💧", task: "Niacinamide Serum (Minimalist 5%) — 2-3 drops" },
-  { time: "8:42 – 8:43 PM", emoji: "⏳", task: "Wait 1 minute" },
-  { time: "8:43 – 8:50 PM", emoji: "🧴", task: "Moisturizer (CeraVe PM) — apply to face & neck" },
+  { time: "8:30 – 8:40 PM", emoji: "🧴", task: "Night Skincare — Cleanser + Niacinamide + Moisturizer" },
   { time: "8:50 – 9:00 PM", emoji: "📖", task: "READING (10-15 pages)" },
   { time: "9:00 – 9:15 PM", emoji: "📅", task: "Daily Review" },
   { time: "9:15 – 9:30 PM", emoji: "🛁", task: "Prepare for sleep" },
@@ -287,7 +289,7 @@ const ENGLISH_STEPS_BASE = [
   { id: "eng_correct", label: "🔍 Self Correction (10 min)", desc: "Grammar, pauses, confidence check", timeRange: "5:30-5:40 PM" }
 ];
 
-// Regular days habits - Updated with skincare
+// Regular days habits - Updated with morning & night skincare
 const HABITS = [
   { id: "wake_wudu",       icon: "🌅", label: "Wake 4:00 AM + Wudu + Water", sub: "Start before sunrise", timeRange: "4:00-4:15 AM", tech: false },
   { id: "tahajjud_fajr",   icon: "🕌", label: "Tahajjud + Fajr + Quran + Dua", sub: "PRAYER — spiritual anchor", timeRange: "4:15-5:00 AM", tech: false },
@@ -298,7 +300,8 @@ const HABITS = [
   { id: "travel_back",     icon: "🚶", label: "Travel back + Relax", sub: "Reset mentally", timeRange: "8:50-9:10 AM", tech: false },
   { id: "exercise",        icon: "💪", label: "Exercise — Pushups, Squats, Plank", sub: "Physical discipline", timeRange: "9:10-9:35 AM", tech: false },
   { id: "cold_bath",       icon: "❄️", label: "COLD BATH", sub: "Mental toughness", timeRange: "9:35-9:50 AM", tech: false },
-  { id: "breakfast",       icon: "🍳", label: "Breakfast — Healthy food", sub: "Fuel for the day", timeRange: "9:50-10:10 AM", tech: false },
+  { id: "morning_skincare", icon: "🧴", label: "Morning Skincare — Cleanser + Niacinamide + Moisturizer + Sunscreen", sub: "CeraVe Hydrating → Minimalist 5% Niacinamide → CeraVe PM → SPF 50", timeRange: "9:50-10:05 AM", tech: false },
+  { id: "breakfast",       icon: "🍳", label: "Breakfast — Healthy food", sub: "Fuel for the day", timeRange: "10:05-10:10 AM", tech: false },
   { id: "travel_hub",      icon: "🚶", label: "Travel to hub (45 min) — Podcasts", sub: "Listen to backend/English podcasts", timeRange: "10:10-10:55 AM", tech: false },
   { id: "brototype_prac",  icon: "🚀", label: "Brototype Practical + Assignments", sub: "Implement what you learned", timeRange: "11:00-1:00 PM", tech: true, hours: 2 },
   { id: "backend_project", icon: "💻", label: "Production-Level Backend Project", sub: "Build LMS/Hotel/Food Delivery/PM System", timeRange: "1:00-2:15 PM", tech: true, hours: 1.25 },
@@ -308,19 +311,20 @@ const HABITS = [
   { id: "code_review",     icon: "🪶", label: "Code Review + GitHub + Debugging", sub: "Refactor, Git commit, clean code", timeRange: "5:30-6:30 PM", tech: true, hours: 1 },
   { id: "prayer_dinner",   icon: "🕌", label: "Asr + Maghrib + Isha + Dinner", sub: "Relax mentally", timeRange: "6:30-7:45 PM", tech: false },
   { id: "interview_rev",   icon: "🎯", label: "Backend Interview Revision", sub: "JS, Node, Express, MongoDB, JWT, OOP, SOLID, Design Patterns", timeRange: "7:45-8:30 PM", tech: true, hours: 0.75 },
-  { id: "skincare_night",  icon: "🧴", label: "Skincare Routine — Cleanser, Niacinamide, Moisturizer", sub: "CeraVe Hydrating → Minimalist 5% Niacinamide → CeraVe PM", timeRange: "8:30-8:50 PM", tech: false },
+  { id: "night_skincare",  icon: "🧴", label: "Night Skincare — Cleanser + Niacinamide + Moisturizer", sub: "CeraVe Hydrating → Minimalist 5% Niacinamide → CeraVe PM", timeRange: "8:30-8:50 PM", tech: false },
   { id: "reading",         icon: "📖", label: "READING (10-15 pages)", sub: "Technical or English book", timeRange: "8:50-9:00 PM", tech: false },
   { id: "daily_review",    icon: "📅", label: "Daily Review — 5 questions", sub: "✅ Brototype ✅ DSA ✅ Project ✅ English ✅ GitHub", timeRange: "9:00-9:15 PM", tech: false },
   { id: "sleep_by_9_30",   icon: "💤", label: "Sleep by 9:30 PM", sub: "Protect your energy", timeRange: "9:30 PM", tech: false },
   { id: "derma_roller",    icon: "✨", label: "Derma Roller — Once a week (Sunday)", sub: "Wash scalp → Clean with alcohol → Roll 6-8x each direction", timeRange: "Sunday 8:30-8:50 PM", tech: false, weekly: true }
 ];
 
-// Friday habits - Updated with skincare
+// Friday habits - Updated with morning & night skincare
 const FRIDAY_HABITS = [
   { id: "fajr_quran",      icon: "🕌", label: "Tahajjud + Fajr + Quran", sub: "Spiritual start", timeRange: "4:15-5:00 AM", tech: false },
   { id: "brototype_week",  icon: "🧠", label: "Complete one Brototype week's work", sub: "3 hours of deep focus", timeRange: "5:00-8:00 AM", tech: true, hours: 3 },
   { id: "exercise_breakfast", icon: "💪", label: "Exercise + Bath + Breakfast", sub: "Physical reset", timeRange: "8:00-9:00 AM", tech: false },
-  { id: "second_project",  icon: "💻", label: "Build second backend project", sub: "3 hours of building", timeRange: "9:00-12:00 PM", tech: true, hours: 3 },
+  { id: "morning_skincare_f", icon: "🧴", label: "Morning Skincare — Cleanser + Niacinamide + Moisturizer + Sunscreen", sub: "CeraVe Hydrating → Minimalist 5% Niacinamide → CeraVe PM → SPF 50", timeRange: "9:00-9:05 AM", tech: false },
+  { id: "second_project",  icon: "💻", label: "Build second backend project", sub: "3 hours of building", timeRange: "9:05-12:00 PM", tech: true, hours: 3 },
   { id: "lunch_prayer",    icon: "🍛", label: "Lunch + Prayer", sub: "Fuel & recharge", timeRange: "12:00-1:00 PM", tech: false },
   { id: "dsa_friday",      icon: "🧩", label: "DSA — 4-5 problems", sub: "Deep dive into algorithms", timeRange: "1:00-2:30 PM", tech: true, hours: 1.5 },
   { id: "interview_system", icon: "🎯", label: "Backend interview + System Design", sub: "Practice & design", timeRange: "2:30-4:00 PM", tech: true, hours: 1.5 },
@@ -328,7 +332,7 @@ const FRIDAY_HABITS = [
   { id: "resume_github",   icon: "📝", label: "Resume + GitHub + LinkedIn", sub: "Build your brand", timeRange: "5:30-6:30 PM", tech: false },
   { id: "prayer_dinner_f",  icon: "🕌", label: "Asr + Maghrib + Isha + Dinner", sub: "Relax mentally", timeRange: "6:30-7:45 PM", tech: false },
   { id: "weekly_review",   icon: "📊", label: "Weekly review & next week's planning", sub: "Track progress", timeRange: "7:45-8:30 PM", tech: false },
-  { id: "skincare_f",      icon: "🧴", label: "Skincare — Cleanser, Niacinamide, Moisturizer", sub: "CeraVe Hydrating → Minimalist 5% Niacinamide → CeraVe PM", timeRange: "8:30-8:50 PM", tech: false },
+  { id: "night_skincare_f", icon: "🧴", label: "Night Skincare — Cleanser + Niacinamide + Moisturizer", sub: "CeraVe Hydrating → Minimalist 5% Niacinamide → CeraVe PM", timeRange: "8:30-8:50 PM", tech: false },
   { id: "reading_f",       icon: "📖", label: "READING (10-15 pages)", sub: "Technical or English book", timeRange: "8:50-9:00 PM", tech: false },
   { id: "daily_review_f",  icon: "📅", label: "Daily Review", sub: "Plan tomorrow", timeRange: "9:00-9:15 PM", tech: false },
   { id: "sleep_f",         icon: "💤", label: "Sleep by 9:30 PM", sub: "Protect your energy", timeRange: "9:30 PM", tech: false }
@@ -353,7 +357,7 @@ const SPECIALS = {
   41:{icon:"🔥",text:"41 DAYS — You are TRANSFORMED! Backend Developer ready!"},
 };
 
-const STORE_KEY = "transform41_v20_skincare";
+const STORE_KEY = "transform41_v21_full_skincare";
 const OVERLAY_STATE_KEY = "transform41_current_day";
 let data = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
 function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
@@ -507,9 +511,9 @@ function renderDay(d){
   const { techHours, commHours } = calculateTechAndCommHours(d);
   const dayOfWeek = (d - 1) % 7;
   const isFriday = dayOfWeek === 5;
+  const isSunday = dayOfWeek === 0;
   const habitList = getHabitsForDay(d);
   const schedule = getScheduleForDay(d);
-  const isSunday = dayOfWeek === 0;
   
   document.getElementById("dNum").textContent = `Day ${d} · ${phase.emoji} ${phase.name} Phase (IST)${isFriday ? ' • 📌 FRIDAY LEAVE' : ''}`;
   document.getElementById("dTitle").textContent = phaseTitle(d);
@@ -544,7 +548,6 @@ function renderDay(d){
     const shouldShowDerma = isDermaRoller && isSunday;
     
     if (isDermaRoller && !shouldShowDerma) {
-      // Don't show derma roller on non-Sundays
       return;
     }
     
@@ -599,7 +602,7 @@ function renderDay(d){
       <div class="wt-row"><span class="wt-label">🐙 GitHub</span><span class="wt-value">6 commits</span></div>
       <div class="wt-row"><span class="wt-label">🇬🇧 English</span><span class="wt-value">6 speaking sessions</span></div>
       <div class="wt-row"><span class="wt-label">🎤 Interview</span><span class="wt-value">1 mock interview</span></div>
-      <div class="wt-row"><span class="wt-label">🧴 Skincare</span><span class="wt-value">Daily routine + Derma roller (Sunday)</span></div>
+      <div class="wt-row"><span class="wt-label">🧴 Skincare</span><span class="wt-value">AM + PM daily • Derma roller (Sunday)</span></div>
     </div>
   `;
   
@@ -611,6 +614,7 @@ function renderDay(d){
       <div class="summary-row"><span class="summary-label">🗣️ English Communication:</span><span class="summary-value comm">${commHours > 0 ? commHours + " hr ✓" : "0 hrs (Not yet)"}</span></div>
       <div class="summary-row"><span class="summary-label">🇬🇧 Total English System Time:</span><span class="summary-value">2 hrs (7 steps)</span></div>
       <div class="summary-row"><span class="summary-label">⏰ Total Productive Hours:</span><span class="summary-value">${(techHours + (commHours > 0 ? 0.33 : 0) + 2).toFixed(1)} hrs</span></div>
+      <div class="summary-row"><span class="summary-label">🧴 Skincare:</span><span class="summary-value" style="color:var(--pink);">AM + PM ✅</span></div>
       ${isSunday ? `<div class="summary-row" style="border-color:var(--pink);"><span class="summary-label" style="color:var(--pink);">✨ Derma Roller Day</span><span class="summary-value" style="color:var(--pink);">Once a week</span></div>` : ''}
       ${isFriday ? `<div class="summary-row" style="border-color:var(--gold);"><span class="summary-label" style="color:var(--gold);">📌 Friday Leave</span><span class="summary-value" style="color:var(--gold);">Full deep work day!</span></div>` : ''}
     </div>
@@ -705,4 +709,4 @@ buildGrid();
 restoreOverlayIfNeeded();
 </script>
 </body>
-</html>
+</html> 
